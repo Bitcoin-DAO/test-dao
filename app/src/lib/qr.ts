@@ -28,7 +28,7 @@ interface BarcodeDetectorLike {
 }
 
 /** Start the back camera in `video`, call onText for each decoded QR until stopped. */
-export async function startScanner(video: HTMLVideoElement, onText: (text: string) => void): Promise<Scanner> {
+export async function startScanner(video: HTMLVideoElement, onText: (text: string) => void, everyMs = 200): Promise<Scanner> {
   const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
   video.srcObject = stream;
   video.setAttribute('playsinline', 'true');
@@ -57,7 +57,7 @@ export async function startScanner(video: HTMLVideoElement, onText: (text: strin
     } catch {
       /* keep scanning */
     }
-    setTimeout(tick, 200);
+    setTimeout(tick, everyMs);
   };
   tick();
   return {

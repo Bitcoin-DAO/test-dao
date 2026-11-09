@@ -26,6 +26,7 @@ import { Sponsor } from './ui/Sponsor';
 import { Council } from './ui/Council';
 import { PrepareRound, RoundDetail } from './ui/Round';
 import { DiscussionList, NewIdea, ThreadView } from './ui/Discussion';
+import { QrTest } from './ui/Hw';
 
 const routes: Record<string, () => preact.JSX.Element> = {
   '/': Home,
@@ -43,6 +44,7 @@ const routes: Record<string, () => preact.JSX.Element> = {
   '/round/new': PrepareRound,
   '/discussion': DiscussionList,
   '/discussion/new': NewIdea,
+  '/qrtest': QrTest,
   '/candidate': () => <Candidate role="candidate" />,
   '/lost': () => <Candidate role="rekey" />,
 };

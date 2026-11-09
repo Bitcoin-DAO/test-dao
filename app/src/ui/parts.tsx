@@ -81,8 +81,8 @@ export function Footer() {
   );
 }
 
-export function Qr(props: { text: string; size?: number; label?: string }) {
-  const m = qrMatrix(props.text);
+export function Qr(props: { text: string; size?: number; label?: string; ecc?: 'L' | 'M' }) {
+  const m = qrMatrix(props.text, props.ecc);
   const q = 4; // quiet zone
   return (
     <svg class="qr" role="img" aria-label={props.label} width={props.size ?? 240} height={props.size ?? 240} viewBox={`${-q} ${-q} ${m.size + 2 * q} ${m.size + 2 * q}`} shape-rendering="crispEdges">

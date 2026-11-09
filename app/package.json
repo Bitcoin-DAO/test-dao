@@ -27,6 +27,7 @@
     "qrcode-generator": "^2.0.4"
   },
   "devDependencies": {
+    "@ngraveio/bc-ur": "^1.1.13",
     "@preact/preset-vite": "^2.10.6",
     "pngjs": "^7.0.0",
     "typescript": "5.6",
