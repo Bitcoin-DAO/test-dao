@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Tesoreria</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1560px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Tesoreria bitcoin della comunità</div>
+</div>
+<div style="display: flex; align-items: center; gap: 8px">
+<button type="button" aria-label="Lingua: italiano, passa all'inglese" style="min-height: 44px; padding: 0 10px; background: transparent; border: 1px solid #4A6A70; border-radius: 8px; color: #FFFFFF; font-family: inherit; font-size: 13px">IT · EN</button>
+<a href="Join.dc.html" style="min-height: 44px; padding: 0 14px; display: flex; align-items: center; background: #FFFFFF; border-radius: 8px; color: #10292E; font-size: 14px; font-weight: 600; text-decoration: none">Accedi</a>
+</div>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<section aria-labelledby="saldo" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<h2 id="saldo" style="margin: 0; font-size: 13px; font-weight: 500; color: #4A5D61">Saldo della tesoreria</h2>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 36px; font-weight: 600; letter-spacing: -0.01em">2.449.580</span>
+<span style="font-size: 16px; font-weight: 500; color: #4A5D61">sats</span>
+</div>
+<div style="font-size: 13px; color: #4A5D61">≈ € [stima in euro]</div>
+<div style="margin-top: 10px; padding-top: 12px; border-top: 1px solid #E3E8E7; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 600">Servono 3 firme su 5</span>
+<span style="font-size: 12px; color: #4A5D61">Il Consiglio custodisce 5 chiavi</span>
+</div>
+<div aria-hidden="true" style="display: flex; gap: 6px">
+<span style="width: 14px; height: 14px; border-radius: 7px; background: #1F6B70"></span>
+<span style="width: 14px; height: 14px; border-radius: 7px; background: #1F6B70"></span>
+<span style="width: 14px; height: 14px; border-radius: 7px; background: #1F6B70"></span>
+<span style="width: 14px; height: 14px; border-radius: 7px; border: 2px solid #1F6B70; box-sizing: border-box"></span>
+<span style="width: 14px; height: 14px; border-radius: 7px; border: 2px solid #1F6B70; box-sizing: border-box"></span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="dona" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 id="dona" style="margin: 0; font-size: 17px; font-weight: 600">Dona alla tesoreria</h2>
+<div style="display: flex; gap: 16px; align-items: center">
+<div role="img" aria-label="Codice QR dell'indirizzo di donazione (segnaposto)" style="width: 112px; height: 112px; flex-shrink: 0; border: 2px dashed #9AAAAD; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #4A5D61; text-align: center">QR<br>indirizzo</div>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.6; word-break: break-all"><strong style="color: #B54D0A">tb1q7c2</strong> mqx8zw5dh3flan0t9e6svyu4rjp2g8k7wmz3c5qsl0hxta9d <strong style="color: #B54D0A">en6k9d2</strong></div>
+<div style="font-size: 12px; color: #4A5D61">Indirizzo di esempio</div>
+<button type="button" style="min-height: 44px; padding: 0 14px; background: #10292E; border: 0; border-radius: 8px; color: #FFFFFF; font-family: inherit; font-size: 14px; font-weight: 600; align-self: flex-start">Copia indirizzo</button>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Ogni donazione appare pubblicamente nei movimenti qui sotto. Ogni volta viene mostrato un indirizzo nuovo.</p>
+</section>
+
+<section aria-labelledby="giro" style="background: #E3F0F0; border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 id="giro" style="margin: 0; font-size: 13px; font-weight: 500; color: #1F4F53">Prossimo giro di pagamenti</h2>
+<span style="font-size: 18px; font-weight: 600">1 dicembre</span>
+<span style="font-size: 13px; color: #1F4F53">1 pagamento approvato · 85.000 sats</span>
+</div>
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; text-decoration: none">Vedi →</a>
+</section>
+
+<section aria-labelledby="aperte" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<h2 id="aperte" style="margin: 0; font-size: 17px; font-weight: 600">Proposte aperte</h2>
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600; text-decoration: none">Tutte →</a>
+</div>
+
+<a href="Proposals.dc.html" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: #10292E">
+<div style="display: flex; gap: 8px; align-items: center; font-size: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; color: #4A5D61">UNO-0007</span>
+<span style="background: #F4F6F5; border-radius: 6px; padding: 2px 8px; color: #10292E">Pagamento</span>
+</div>
+<div style="font-size: 15px; font-weight: 600">Stampa dei volantini per il meetup di dicembre</div>
+<div aria-hidden="true" style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #E3E8E7">
+<span style="width: 75%; background: #1F6B70"></span>
+<span style="width: 17%; background: #E8A87C"></span>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #4A5D61">
+<span>Sì 9 · No 2 · Astenuti 1</span>
+<span>chiude tra 3 giorni</span>
+</div>
+</a>
+
+<a href="Proposals.dc.html" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: #10292E">
+<div style="display: flex; gap: 8px; align-items: center; font-size: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; color: #4A5D61">UNO-0006</span>
+<span style="background: #F4F6F5; border-radius: 6px; padding: 2px 8px; color: #10292E">Dichiarazione</span>
+</div>
+<div style="font-size: 15px; font-weight: 600">Carta fondativa di UNO</div>
+<div aria-hidden="true" style="display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: #E3E8E7">
+<span style="width: 100%; background: #1F6B70"></span>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #4A5D61">
+<span>Sì 11 · No 0 · Astenuti 0</span>
+<span>chiude tra 5 giorni</span>
+</div>
+</a>
+</section>
+
+<section aria-labelledby="movimenti" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 4px 20px">
+<h2 id="movimenti" style="margin: 0; padding: 14px 0 6px; font-size: 17px; font-weight: 600">Movimenti</h2>
+
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 500">Donazione</span>
+<span style="font-size: 12px; color: #4A5D61">Entrata · 28 ott</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: #1F6B70">+500.000</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 500">UNO-0003 · Workshop wallet per principianti</span>
+<span style="font-size: 12px; color: #4A5D61">Uscita · 1 ott · incl. commissione · <a href="#">ricevuta</a></span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: #B54D0A">−150.420</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 500">Donazione</span>
+<span style="font-size: 12px; color: #4A5D61">Entrata · 22 set</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: #1F6B70">+100.000</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 0">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 500">Donazione iniziale</span>
+<span style="font-size: 12px; color: #4A5D61">Entrata · 1 set</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: #1F6B70">+2.000.000</span>
+</div>
+</section>
+
+<section aria-labelledby="verifica" style="border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px">
+<h2 id="verifica" style="margin: 0; font-size: 15px; font-weight: 600">Verifica tu stesso</h2>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Questo sito non custodisce chiavi. I fondi si muovono solo con 3 firme del Consiglio.</p>
+<a href="RecoverySheet.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Foglio di recupero (PDF)</a>
+<a href="Rules.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Regole in vigore</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Codice sorgente: btc-dao</a>
+</section>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

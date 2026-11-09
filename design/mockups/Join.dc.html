@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Entra o diventa membro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1200px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Tesoreria bitcoin della comunità</div>
+</div>
+<button type="button" aria-label="Lingua: italiano, passa all'inglese" style="min-height: 44px; padding: 0 10px; background: transparent; border: 1px solid #4A6A70; border-radius: 8px; color: #FFFFFF; font-family: inherit; font-size: 13px">IT · EN</button>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{inJoin}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; color: #4A5D61">Passo {{stepNum}} di 4</span>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<span style="{{bar1}}"></span><span style="{{bar2}}"></span><span style="{{bar3}}"></span><span style="{{bar4}}"></span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isStart}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Benvenuto in UNO</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">I membri propongono e votano come usare la tesoreria della comunità. Per votare non servono bitcoin, né un wallet: basta questo telefono.</p>
+<div style="background: #E3F0F0; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #1F4F53"><strong>L'iscrizione si fa di persona o in videochiamata,</strong> con un membro che ti conosce e ti presenta, e il Consiglio presente.</div>
+<button type="button" onClick="{{goName}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Diventa membro</button>
+<button type="button" onClick="{{goSignin}}" style="min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Sono già membro: accedi</button>
+<a href="Main.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500">Guarda la tesoreria senza accedere</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isName}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Come ti chiamiamo?</h1>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nome" style="font-size: 14px; font-weight: 600">Nome o pseudonimo</label>
+<input id="nome" type="text" defaultValue="@giulia" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">Resta pubblico per sempre. Uno pseudonimo va benissimo.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sponsor" style="font-size: 14px; font-weight: 600">Chi ti presenta?</label>
+<input id="sponsor" type="text" defaultValue="@anna" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">Un membro che ti conosce. Aprirà lui la proposta per ammetterti.</span>
+</div>
+<button type="button" onClick="{{goKey}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Avanti</button>
+<button type="button" onClick="{{goStart}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isKey}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Crea la tua chiave</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Una chiave personale per firmare voti e proposte. La protegge la passkey del tuo telefono, con la tua impronta o il volto. Niente email, niente password, <strong>niente da scrivere</strong>.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2E4448">Se il telefono sincronizza le passkey, ritrovi la chiave su ogni tuo dispositivo, anche su un telefono nuovo.</p>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #2E4448">Questa chiave serve solo per votare. <strong>Non può muovere i fondi</strong> della tesoreria.</div>
+<button type="button" onClick="{{goCode}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Crea con impronta o volto</button>
+<span style="font-size: 12px; line-height: 1.5; text-align: center; color: #4A5D61">Il telefono non usa le passkey? La chiave resta in questo browser, e la tessera d'identità ti fa entrare dagli altri dispositivi.</span>
+<button type="button" onClick="{{goName}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isCode}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: center">
+<h1 style="margin: 0; align-self: stretch; font-size: 24px; font-weight: 700">Mostra questo codice</h1>
+<p style="margin: 0; align-self: stretch; font-size: 15px; line-height: 1.5; color: #2E4448">Chi ti presenta e il membro del Consiglio presente lo scansionano. Poi leggete insieme il codice breve ad alta voce: deve coincidere sui loro telefoni.</p>
+<div role="img" aria-label="Codice QR della tua chiave d'identità (segnaposto)" style="width: 220px; height: 220px; border: 2px dashed #9AAAAD; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #4A5D61">QR della tua<br>chiave d'identità</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; letter-spacing: 0.08em">7F3K · 29QD</span>
+<span style="font-size: 12px; color: #4A5D61">Codice breve da leggere ad alta voce</span>
+<button type="button" style="align-self: stretch; min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Sei a distanza? Invia il codice</button>
+<span style="align-self: stretch; font-size: 12px; text-align: center; color: #4A5D61">Invialo a chi ti presenta, poi leggete il codice breve in videochiamata. Il codice è pubblico: inviarlo è sicuro.</span>
+<button type="button" onClick="{{goCharter}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Fatto, continua</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isCharter}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">La carta fondativa</h1>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5">
+<strong>A cosa servono i fondi e come ci comportiamo.</strong>
+<span style="color: #4A5D61">[Testo della carta fondativa, approvata con la proposta UNO-0006]</span>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-weight: 500">Leggi la carta completa ↗</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px">
+<input type="checkbox" checked="{{accepted}}" onChange="{{toggleAccept}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #1F6B70">
+Ho letto e accetto la carta fondativa
+</label>
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px; line-height: 1.4">
+<input type="checkbox" checked="{{privacy}}" onChange="{{togglePrivacy}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #1F6B70">
+Ho capito che il mio pseudonimo e ogni mio voto saranno pubblici per sempre
+</label>
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px">
+<input type="checkbox" checked="{{adult}}" onChange="{{toggleAdult}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #1F6B70">
+Ho almeno 18 anni
+</label>
+</div>
+<button type="button" disabled="{{notAccepted}}" onClick="{{goDone}}" style="{{submitStyle}}">Invia la richiesta</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 18px; color: #1F4F53">Richiesta inviata ✓</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #1F4F53">@anna ha aperto la proposta UNO-0009 per ammetterti. Il voto dura 7 giorni, poi servono 3 conferme del Consiglio.</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 15px">E adesso?</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Puoi già guardare tesoreria e proposte. Potrai votare quando sarai nell'elenco dei membri: lo vedrai al prossimo accesso.</span>
+</div>
+<div style="background: #FFFFFF; border: 2px solid #1F6B70; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<strong style="font-size: 15px">Stampa la tua tessera d'identità</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">La tua chiave su carta, come codice QR. Se perdi il telefono, o se un giorno UNO cambia indirizzo, la scansioni e sei di nuovo dentro: stessa identità, stessi voti.</span>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Niente password e nessun file: va dritta dal browser alla stampante. Tienila come una chiave di casa.</span>
+<button type="button" style="min-height: 48px; background: #1F6B70; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Stampa la tessera</button>
+<span style="font-size: 12px; color: #4A5D61">Facoltativa. Puoi stamparla anche dopo, dal tuo profilo.</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<strong style="font-size: 15px">Vuoi poter ricevere pagamenti?</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Per votare non serve, ma per ricevere un pagamento ti serve un wallet bitcoin.</span>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 600">Guida: il tuo primo wallet in 5 minuti →</a>
+</div>
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Vai alle proposte →</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isSignin}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Accedi</h1>
+<button type="button" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Accedi con impronta o volto</button>
+<a href="Restore.dc.html" style="min-height: 48px; display: flex; align-items: center; justify-content: center; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none">Ho la tessera: scansionala</a>
+<button type="button" style="min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Usi già Nostr? Accedi con l'estensione</button>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; color: #2E4448"><span><strong>Hai perso il telefono e la passkey?</strong> Se hai la tessera, scansionala qui sopra. Senza tessera, vieni a un incontro: crei una nuova chiave e un membro del Consiglio verifica che sei tu. I tuoi voti passati restano validi.</span>
+<button type="button" onClick="{{goKey}}" style="min-height: 44px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ho perso la chiave: creane una nuova</button></div>
+<button type="button" onClick="{{goStart}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const step = s.step || 'start';
+const accepted = !!s.accepted;
+const privacy = !!s.privacy;
+const adult = !!s.adult;
+const ready = accepted && privacy && adult;
+const nums = { name: 1, key: 2, code: 3, charter: 4 };
+const n = nums[step] || 0;
+const bar = (i) => 'height: 6px; border-radius: 3px; background: ' + (i <= n ? '#1F6B70' : '#D5DDDC');
+const go = (k) => () => this.setState({ step: k });
+return {
+isStart: step === 'start', isName: step === 'name', isKey: step === 'key', isCode: step === 'code',
+isCharter: step === 'charter', isDone: step === 'done', isSignin: step === 'signin',
+inJoin: n > 0, stepNum: String(n),
+bar1: bar(1), bar2: bar(2), bar3: bar(3), bar4: bar(4),
+accepted: accepted, privacy: privacy, adult: adult, notAccepted: !ready,
+submitStyle: 'min-height: 52px; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600; color: #FFFFFF; background: ' + (ready ? '#B54D0A' : '#6B7C80'),
+toggleAccept: () => this.setState({ accepted: !accepted }),
+togglePrivacy: () => this.setState({ privacy: !privacy }),
+toggleAdult: () => this.setState({ adult: !adult }),
+goStart: go('start'), goName: go('name'), goKey: go('key'), goCode: go('code'),
+goCharter: go('charter'), goDone: go('done'), goSignin: go('signin')
+};
+}
+}
+</script>
+</body>
+</html>

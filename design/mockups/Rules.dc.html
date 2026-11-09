@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Regole</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1560px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Tesoreria bitcoin della comunità</div>
+</div>
+<a href="Join.dc.html" style="min-height: 44px; padding: 0 14px; display: flex; align-items: center; background: #FFFFFF; border-radius: 8px; color: #10292E; font-size: 14px; font-weight: 600; text-decoration: none">Accedi</a>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700">Regole in vigore</h1>
+<p style="margin: 0; font-size: 14px; color: #4A5D61">Si cambiano solo con una proposta approvata dai due terzi e confermata da 3 membri del Consiglio.</p>
+</div>
+
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 2px">
+<h2 style="margin: 0 0 6px; font-size: 17px; font-weight: 600">{{g.title}}</h2>
+<sc-for list="{{g.rules}}" as="r" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid #E3E8E7">
+<div style="display: flex; justify-content: space-between; gap: 12px">
+<span style="font-size: 14px">{{r.k}}</span>
+<span style="font-size: 14px; font-weight: 600; text-align: right">{{r.v}}</span>
+</div>
+<span style="font-size: 12px; color: #4A5D61">{{r.since}}</span>
+</div>
+</sc-for>
+</section>
+</sc-for>
+
+<section aria-labelledby="recupero" style="border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+<h2 id="recupero" style="margin: 0; font-size: 15px; font-weight: 600">Recupero senza questo sito</h2>
+<p style="margin: 0; font-size: 13px; line-height: 1.5; color: #4A5D61">Con il foglio di recupero e 3 semi del Consiglio, i fondi si recuperano con qualsiasi wallet standard, come Sparrow.</p>
+<a href="RecoverySheet.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600">Foglio di recupero (PDF) →</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Codice sorgente: btc-dao v0.1</a>
+</section>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+renderVals() {
+const orig = 'dal 8 set · UNO-0002';
+return {
+groups: [
+{ title: 'Voto', rules: [
+{ k: 'Chi vota', v: 'un membro, un voto', since: orig },
+{ k: 'Durata del voto', v: '7 giorni, sempre interi', since: orig },
+{ k: 'Quorum', v: '1/3 di chi può votare', since: orig },
+{ k: 'Pagamenti, dichiarazioni, nuovi membri', v: 'maggioranza semplice', since: orig },
+{ k: 'Rimozioni, regole, Consiglio, chiusura', v: 'due terzi', since: orig }
+] },
+{ title: 'Tesoreria', rules: [
+{ k: 'Firme necessarie', v: '3 su 5', since: 'dal 1 set · UNO-0001' },
+{ k: 'Giro di pagamenti', v: 'il 1° di ogni mese (ora di Roma), uno alla volta', since: orig },
+{ k: 'Proposta decade dopo', v: '2 giri non pagati', since: orig },
+{ k: 'Commissione massima', v: '20 sat/vB', since: orig },
+{ k: 'Tetto della tesoreria (prova)', v: '5.000.000 sats', since: orig }
+] },
+{ title: 'Sistema', rules: [
+{ k: 'Rete', v: 'testnet4 (prova)', since: 'dal 1 set' },
+{ k: 'Relay', v: '3 (1 della DAO su Cloudflare, 2 pubblici)', since: 'dal 1 set' },
+{ k: 'Ancoraggio', v: 'a ogni chiusura di voto', since: 'dal 1 set' }
+] }
+]
+};
+}
+}
+</script>
+</body>
+</html>

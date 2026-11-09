@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Iscrizione dei fondatori</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1200px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Fondazione</div>
+</div>
+<button type="button" aria-label="Lingua: italiano, passa all'inglese" style="min-height: 44px; padding: 0 10px; background: transparent; border: 1px solid #4A6A70; border-radius: 8px; color: #FFFFFF; font-family: inherit; font-size: 13px">IT · EN</button>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{inSteps}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; color: #4A5D61">Passo {{stepNum}} di 4</span>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<span style="{{bar1}}"></span><span style="{{bar2}}"></span><span style="{{bar3}}"></span><span style="{{bar4}}"></span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isIntro}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #1F4F53"><strong>Modalità fondazione.</strong> UNO non esiste ancora: nascerà alla fine di questa riunione.</div>
+<h1 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Iscrizione dei fondatori</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Sei tra i primi membri. Ti iscrivi qui, alla riunione di fondazione: il Consiglio vede il tuo codice e approva l'elenco dei fondatori. Non serve un voto.</p>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nome" style="font-size: 14px; font-weight: 600">Nome o pseudonimo</label>
+<input id="nome" type="text" defaultValue="@elena" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">Resta pubblico per sempre. Uno pseudonimo va benissimo.</span>
+</div>
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px">
+<input type="checkbox" checked="{{council}}" onChange="{{toggleCouncil}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #1F6B70">
+Faccio parte del Consiglio
+</label>
+<button type="button" onClick="{{goKey}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Avanti</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isKey}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Crea la tua chiave</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Una chiave personale per firmare voti e proposte, protetta dalla passkey del tuo telefono. Niente email, niente password.</p>
+<div style="background: #FCEBDD; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #7A3306"><strong>Fino alla fondazione la chiave vive solo in questo browser.</strong> Non cancellare i dati del browser e non cambiare telefono finché UNO non è fondata. Se succede, ti iscrivi di nuovo prima della pubblicazione.</div>
+<button type="button" onClick="{{goCode}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Crea con impronta o volto</button>
+<button type="button" onClick="{{goIntro}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isCode}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: center">
+<h1 style="margin: 0; align-self: stretch; font-size: 24px; font-weight: 700">Mostra questo codice</h1>
+<p style="margin: 0; align-self: stretch; font-size: 15px; line-height: 1.5; color: #2E4448">Chi prepara la fondazione lo scansiona. Poi leggete insieme il codice breve ad alta voce: deve coincidere sul suo telefono.</p>
+<div role="img" aria-label="Codice QR della tua chiave d'identità (segnaposto)" style="width: 220px; height: 220px; border: 2px dashed #9AAAAD; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #4A5D61">QR della tua<br>chiave d'identità</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; letter-spacing: 0.08em">7F3K · 29QD</span>
+<span style="font-size: 12px; color: #4A5D61">Codice breve da leggere ad alta voce</span>
+<span style="align-self: stretch; font-size: 12px; line-height: 1.5; text-align: center; color: #4A5D61">Sei in videochiamata? Invia il codice a chi prepara la fondazione e leggete il codice breve durante la chiamata.</span>
+<button type="button" onClick="{{goWait}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Fatto, continua</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isWait}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">In attesa della fondazione</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Sei nell'elenco dei fondatori. UNO nasce quando il Consiglio pubblica le impostazioni fondative e almeno 3 membri del Consiglio le approvano.</p>
+<section aria-labelledby="stato" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<h2 id="stato" style="margin: 0; font-size: 16px; font-weight: 600">A che punto siamo</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Il tuo codice</span><strong style="color: #1F4F53">Registrato ✓</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Impostazioni fondative</span><strong style="color: #1F4F53">Pubblicate ✓</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Approvazioni del Consiglio</span><strong>2 di 3</strong></div>
+</section>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Puoi lasciare aperta questa pagina: si aggiorna da sola.</span>
+<button type="button" onClick="{{goDone}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Simula: terza approvazione</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 18px; color: #1F4F53">UNO è fondata ✓</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #1F4F53">Sei un membro fondatore e puoi già votare. La tua passkey ora protegge la chiave su ogni dispositivo dove è sincronizzata.</span>
+</div>
+<div style="background: #FFFFFF; border: 2px solid #1F6B70; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<strong style="font-size: 15px">Stampa la tua tessera d'identità</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">La tua chiave su carta, come codice QR. Ora si può stampare, perché UNO esiste. Niente password e nessun file: va dritta dal browser alla stampante.</span>
+<sc-if value="{{council}}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 14px; font-weight: 600; line-height: 1.5; color: #7A3306">Per il Consiglio è obbligatoria prima di firmare qualsiasi cosa. Tienila lontano dalla carta SeedQR.</span>
+</sc-if>
+<button type="button" style="min-height: 48px; background: #1F6B70; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Stampa la tessera</button>
+<span style="font-size: 12px; color: #4A5D61">{{cardNote}}</span>
+</div>
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Vai alle proposte →</a>
+<button type="button" onClick="{{goIntro}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const step = s.step || 'intro';
+const council = !!s.council;
+const nums = { intro: 1, key: 2, code: 3, wait: 4 };
+const n = nums[step] || 0;
+const bar = (i) => 'height: 6px; border-radius: 3px; background: ' + (i <= n ? '#1F6B70' : '#D5DDDC');
+const go = (k) => () => this.setState({ step: k });
+return {
+isIntro: step === 'intro', isKey: step === 'key', isCode: step === 'code', isWait: step === 'wait', isDone: step === 'done',
+inSteps: n > 0, stepNum: String(n),
+bar1: bar(1), bar2: bar(2), bar3: bar(3), bar4: bar(4),
+council: council,
+cardNote: council ? 'Obbligatoria per il Consiglio.' : 'Facoltativa. Puoi stamparla anche dopo, dal tuo profilo.',
+toggleCouncil: () => this.setState({ council: !council }),
+goIntro: go('intro'), goKey: go('key'), goCode: go('code'), goWait: go('wait'), goDone: go('done')
+};
+}
+}
+</script>
+</body>
+</html>

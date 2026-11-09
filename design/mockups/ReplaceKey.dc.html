@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Sostituzione della chiave</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1460px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="CouncilInbox.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Consiglio</a>
+<span style="min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 14px; background: #FCEBDD; color: #7A3306; display: flex; align-items: center; justify-content: center; font-size: 13px">L</span>@luca</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Sostituisci la chiave di un membro</h1>
+<p style="margin: 0; font-size: 14px; color: #4A5D61">Per chi ha perso telefono e passkey. Si fa solo di persona; la vecchia chiave smette di valere.</p>
+</div>
+
+<ol aria-label="Passi" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<li style="{{b1}}">Chi</li>
+<li style="{{b2}}">Nuova chiave</li>
+<li style="{{b3}}">Firma</li>
+<li style="{{b4}}">Conferme</li>
+</ol>
+
+<sc-if value="{{isWho}}" hint-placeholder-val="{{ true }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">1. Chi ha perso la chiave?</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="membro" style="font-size: 14px; font-weight: 600">Membro</label>
+<select id="membro" defaultValue="elena" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px">
+<option value="elena">@elena · membro dal 1 set</option>
+<option value="paolo">@paolo · membro dal 1 set</option>
+<option value="chiara">@chiara · membro dal 1 set</option>
+</select>
+</div>
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px; line-height: 1.4">
+<input type="checkbox" checked="{{known}}" onChange="{{toggleKnown}}" style="width: 22px; height: 22px; flex-shrink: 0; accent-color: #1F6B70">
+La conosco e l'ho riconosciuta di persona
+</label>
+<span style="font-size: 13px; color: #4A5D61">Se non la conosci bene, chiedi a chi l'aveva presentata di essere presente.</span>
+<button type="button" disabled="{{notKnown}}" onClick="{{goNew}}" style="{{nextStyle}}">Avanti</button>
+</section>
+</sc-if>
+
+<sc-if value="{{isNew}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; align-items: center">
+<h2 style="margin: 0; align-self: stretch; font-size: 17px; font-weight: 600">2. Scansiona la sua nuova chiave</h2>
+<p style="margin: 0; align-self: stretch; font-size: 14px; line-height: 1.5; color: #2E4448">Sul nuovo telefono @elena apre il sito, sceglie «Ho perso la chiave» e crea una nuova passkey. Poi mostra il codice.</p>
+<div role="img" aria-label="Fotocamera per scansionare la nuova chiave (segnaposto)" style="width: 260px; height: 180px; background: #10292E; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #C5D3D4">Fotocamera<br>inquadra il QR della nuova chiave</div>
+<div style="align-self: stretch; display: flex; flex-direction: column; gap: 4px; align-items: center">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 600; letter-spacing: 0.08em">K8W2 · 5TNE</span>
+<span style="font-size: 12px; color: #4A5D61">Leggetelo ad alta voce: deve coincidere con il suo telefono</span>
+</div>
+<button type="button" onClick="{{goSign}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Coincide, continua</button>
+<button type="button" onClick="{{goWho}}" style="align-self: stretch; min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</section>
+</sc-if>
+
+<sc-if value="{{isSign}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">3. Firma la sostituzione</h2>
+<dl style="margin: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px 12px; font-size: 14px">
+<dt style="color: #4A5D61">Membro</dt><dd style="margin: 0">@elena</dd>
+<dt style="color: #4A5D61">Chiave vecchia</dt><dd style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px">npub1 e5k … 8qzt</dd>
+<dt style="color: #4A5D61">Chiave nuova</dt><dd style="margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 13px">npub1 9vh … a2lw</dd>
+<dt style="color: #4A5D61">Verificata da</dt><dd style="margin: 0">@luca (tu), di persona</dd>
+</dl>
+<div style="background: #F4F6F5; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; color: #2E4448">Dopo 3 conferme del Consiglio la vecchia chiave non può più votare né proporre. I voti già dati restano validi; quelli firmati con la vecchia chiave dopo la sostituzione vengono scartati.</div>
+<button type="button" onClick="{{goConfirm}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Firma con la tua chiave d'identità</button>
+</section>
+</sc-if>
+
+<sc-if value="{{isConfirm}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">4. Conferme del Consiglio</h2>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 14px">Sostituzione per @elena</span><span style="font-size: 15px; font-weight: 600">{{count}} di 3</span></div>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px">
+<span style="height: 8px; border-radius: 4px; background: #1F6B70"></span>
+<span style="{{bar2}}"></span>
+<span style="{{bar3}}"></span>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Gli altri membri del Consiglio la trovano in «Da fare». Possono chiedere a @elena di persona prima di confermare.</span>
+<sc-if value="{{notComplete}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{addConfirm}}" style="min-height: 48px; background: #10292E; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Simula: un altro membro conferma</button>
+</sc-if>
+<sc-if value="{{complete}}" hint-placeholder-val="{{ false }}">
+<div style="background: #E3F0F0; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; color: #1F4F53"><strong>Chiave sostituita ✓</strong> @elena può di nuovo votare dal nuovo telefono. La vecchia chiave è revocata.</span>
+<button type="button" onClick="{{reset}}" style="min-height: 44px; background: transparent; border: 1px solid #1F6B70; border-radius: 8px; color: #1F4F53; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="CouncilInbox.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Consiglio</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1460}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const step = s.step || 'who';
+const known = !!s.known;
+const c = s.count || 1;
+const n = { who: 1, new: 2, sign: 3, confirm: 4 }[step];
+const b = (i) => 'padding: 8px 4px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 600; ' + (i < n ? 'background: #1F6B70; color: #FFFFFF;' : i === n ? 'background: #10292E; color: #FFFFFF;' : 'background: #E3E8E7; color: #4A5D61;');
+const bar = (i) => 'height: 8px; border-radius: 4px; background: ' + (c >= i ? '#1F6B70' : '#E3E8E7');
+const go = (k) => () => this.setState({ step: k });
+return {
+isWho: step === 'who', isNew: step === 'new', isSign: step === 'sign', isConfirm: step === 'confirm',
+b1: b(1), b2: b(2), b3: b(3), b4: b(4),
+known: known, notKnown: !known,
+nextStyle: 'min-height: 52px; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600; color: #FFFFFF; background: ' + (known ? '#B54D0A' : '#6B7C80'),
+toggleKnown: () => this.setState({ known: !known }),
+count: String(c), bar2: bar(2), bar3: bar(3),
+complete: c >= 3, notComplete: c < 3,
+addConfirm: () => this.setState({ count: Math.min(3, c + 1) }),
+goWho: go('who'), goNew: go('new'), goSign: go('sign'), goConfirm: go('confirm'),
+reset: () => this.setState({ step: 'who', known: false, count: 1 })
+};
+}
+}
+</script>
+</body>
+</html>

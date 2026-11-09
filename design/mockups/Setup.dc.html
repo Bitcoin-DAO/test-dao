@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Prepara la fondazione</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1560px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Prepara la fondazione · @anna, Consiglio</div>
+</div>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<nav aria-label="Passi della fondazione" style="background: #FFFFFF; border-bottom: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<button type="button" onClick="{{goBasics}}" style="{{tab1}}">1 · Base</button>
+<button type="button" onClick="{{goCouncil}}" style="{{tab2}}">2 · Consiglio</button>
+<button type="button" onClick="{{goFounders}}" style="{{tab3}}">3 · Fondatori</button>
+<button type="button" onClick="{{goPublish}}" style="{{tab4}}">4 · Pubblica</button>
+</nav>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{isBasics}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Le basi</h1>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nome-dao" style="font-size: 14px; font-weight: 600">Nome della DAO</label>
+<input id="nome-dao" type="text" defaultValue="UNO" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="scopo" style="font-size: 14px; font-weight: 600">A cosa serve</label>
+<input id="scopo" type="text" defaultValue="Tesoreria bitcoin della nostra comunità" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+</div>
+<section aria-labelledby="indirizzo" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="indirizzo" style="margin: 0; font-size: 16px; font-weight: 600">Indirizzo e rete</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Indirizzo</span><strong style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; text-align: right">bitcoin-dao.github.io/uno-testnet</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Dominio delle passkey</span><strong style="font-family: 'IBM Plex Mono', monospace; font-weight: 600">bitcoin-dao.github.io</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Rete</span><strong>testnet4 (prova)</strong></div>
+<span style="font-size: 13px; line-height: 1.5; color: #7A3306">Il dominio non si può cambiare dopo la fondazione: le passkey dei membri sono legate a lui. La prova gira su GitHub Pages; la DAO sulla rete principale userà il dominio scelto dal Consiglio.</span>
+</section>
+<section aria-labelledby="regole" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="regole" style="margin: 0; font-size: 16px; font-weight: 600">Regole di partenza</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Durata del voto</span><strong>7 giorni</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Quorum</span><strong>1/3 dei membri</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Pagamenti</span><strong>Una volta al mese</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Commissione massima</span><strong>20 sat/vB</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Tetto della tesoreria (prova)</span><strong>5.000.000 sats</strong></div>
+<a href="Rules.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Vedi tutte le regole</a>
+</section>
+<button type="button" onClick="{{goCouncil}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Avanti: il Consiglio</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isCouncil}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Il Consiglio</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Per ognuno: la chiave d'identità dalla sua iscrizione e la chiave della tesoreria dal QR della cerimonia delle chiavi.</p>
+<div style="background: #E3F0F0; border-radius: 12px; padding: 12px 14px; font-size: 14px; color: #1F4F53">Firme necessarie per ogni pagamento: <strong>3 di 5</strong></div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">@anna</strong><span style="font-size: 13px; color: #2E4448">Identità <span style="font-family: 'IBM Plex Mono', monospace">K2M8 · 4TXA</span> ✓ · Tesoreria <span style="font-family: 'IBM Plex Mono', monospace">3c91e0a4</span> ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">@marco</strong><span style="font-size: 13px; color: #2E4448">Identità <span style="font-family: 'IBM Plex Mono', monospace">9RWD · 6KQ2</span> ✓ · Tesoreria <span style="font-family: 'IBM Plex Mono', monospace">b52d7f18</span> ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">@luca</strong><span style="font-size: 13px; color: #2E4448">Identità <span style="font-family: 'IBM Plex Mono', monospace">T4NE · 1HVB</span> ✓ · Tesoreria <span style="font-family: 'IBM Plex Mono', monospace">7a3f21c9</span> ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">@sara</strong><span style="font-size: 13px; color: #2E4448">Identità <span style="font-family: 'IBM Plex Mono', monospace">P8ZC · 3MWA</span> ✓ · Tesoreria <span style="font-family: 'IBM Plex Mono', monospace">e04a6b3d</span> ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 15px">@pietro</strong><span style="font-size: 13px; color: #2E4448">Identità <span style="font-family: 'IBM Plex Mono', monospace">2GXF · 8DNR</span> ✓ · Tesoreria <span style="font-family: 'IBM Plex Mono', monospace">91fd2c57</span> ✓</span></li>
+</ul>
+<button type="button" style="min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Scansiona un QR della cerimonia</button>
+<a href="RecoverySheet.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">Stampa il foglio di recupero →</a>
+<button type="button" onClick="{{goFounders}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Avanti: i fondatori</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isFounders}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">I fondatori</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Scansiona il codice di ogni fondatore e leggete insieme il codice breve ad alta voce prima di aggiungerlo.</p>
+<button type="button" style="min-height: 52px; background: #1F6B70; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Scansiona un fondatore</button>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px"><div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">@elena</strong><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">7F3K · 29QD</span></div><span style="font-size: 13px; color: #1F4F53">Di persona ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px"><div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">@giorgio</strong><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">Q6VA · 5JTE</span></div><span style="font-size: 13px; color: #1F4F53">Di persona ✓</span></li>
+<li style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px"><div style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">@marta</strong><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">H3KP · 7WZD</span></div><span style="font-size: 13px; color: #7A3306">A distanza ✓</span></li>
+</ul>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">I 5 membri del Consiglio sono già fondatori: non serve aggiungerli qui. Chi si iscrive in videochiamata resta segnato «a distanza».</span>
+<button type="button" onClick="{{goPublish}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Avanti: pubblica</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isPublish}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Pubblica e approva</h1>
+<section aria-labelledby="riepilogo" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="riepilogo" style="margin: 0; font-size: 16px; font-weight: 600">Impostazioni fondative</h2>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>DAO</span><strong>UNO · testnet4</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Consiglio</span><strong>5, soglia 3</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Altri fondatori</span><strong>3</strong></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px"><span>Identificativo DAO</span><strong style="font-family: 'IBM Plex Mono', monospace; font-weight: 600">a41c9e07 …</strong></div>
+</section>
+
+<sc-if value="{{notPublished}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Controllate insieme il riepilogo. Dopo la pubblicazione non si cambia più: ogni modifica passerà da una proposta.</span>
+<button type="button" onClick="{{publish}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Firma e pubblica</button>
+</div>
+</sc-if>
+
+<sc-if value="{{published}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="approvazioni" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="approvazioni" style="margin: 0; font-size: 16px; font-weight: 600">Approvazioni del Consiglio: {{endorsed}} di 3</h2>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Ogni membro del Consiglio apre UNO sul suo telefono e approva. Approvando conferma anche i codici dei fondatori letti ad alta voce.</span>
+<span style="font-size: 13px; color: #4A5D61">{{endorsedNames}}</span>
+<sc-if value="{{notFounded}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{endorse}}" style="min-height: 48px; background: #1F6B70; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Simula: un'approvazione</button>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{founded}}" hint-placeholder-val="{{ false }}">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 18px; color: #1F4F53">UNO è fondata ✓</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #1F4F53">8 membri fondatori. Ognuno ora protegge la chiave con la passkey e può stampare la tessera. Il Consiglio stampa la sua prima di firmare.</span>
+</div>
+<button type="button" onClick="{{reset}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</sc-if>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const tab = s.tab || 'basics';
+const published = !!s.published;
+const n = s.endorsed || 0;
+const names = ['@anna', '@marco', '@luca'].slice(0, n);
+const tabStyle = (t) => 'min-height: 48px; background: transparent; border: 0; border-bottom: 3px solid ' + (tab === t ? '#B54D0A' : 'transparent') + '; font-family: inherit; font-size: 13px; font-weight: ' + (tab === t ? '700' : '500') + '; color: ' + (tab === t ? '#10292E' : '#4A5D61');
+const go = (t) => () => this.setState({ tab: t });
+return {
+isBasics: tab === 'basics', isCouncil: tab === 'council', isFounders: tab === 'founders', isPublish: tab === 'publish',
+tab1: tabStyle('basics'), tab2: tabStyle('council'), tab3: tabStyle('founders'), tab4: tabStyle('publish'),
+published: published, notPublished: !published,
+endorsed: String(n), endorsedNames: n ? 'Approvato da ' + names.join(', ') : 'Ancora nessuna approvazione',
+founded: n >= 3, notFounded: n < 3,
+publish: () => this.setState({ published: true, endorsed: 0 }),
+endorse: () => this.setState({ endorsed: Math.min(3, n + 1) }),
+reset: () => this.setState({ tab: 'basics', published: false, endorsed: 0 }),
+goBasics: go('basics'), goCouncil: go('council'), goFounders: go('founders'), goPublish: go('publish')
+};
+}
+}
+</script>
+</body>
+</html>

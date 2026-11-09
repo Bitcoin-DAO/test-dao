@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Il tuo profilo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1300px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Proposte</a>
+<span style="font-size: 14px; color: #C5D3D4">Profilo</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{isProfile}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; align-items: center; gap: 14px">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 28px; background: #E3F0F0; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700">E</span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">@elena</h1>
+<span style="font-size: 14px; color: #4A5D61">Membro dal 1 set · 6 voti</span>
+</div>
+</div>
+
+<section aria-labelledby="chiave" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<h2 id="chiave" style="margin: 0; font-size: 17px; font-weight: 600">La tua chiave</h2>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">La protegge la tua passkey: la ritrovi su ogni dispositivo dove la passkey è sincronizzata.</span>
+<span style="font-size: 12px; color: #4A5D61">Identità: <span style="font-family: 'IBM Plex Mono', monospace">npub1 e5k … 8qzt</span> · codice breve <span style="font-family: 'IBM Plex Mono', monospace">7F3K · 29QD</span></span>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Accedi su un altro dispositivo</a>
+</section>
+
+<section aria-labelledby="tessera" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="tessera" style="margin: 0; font-size: 17px; font-weight: 600">Tessera d'identità</h2>
+<span style="font-size: 14px; font-weight: 600; color: #1F4F53">Stampata il 1 set 2026 ✓</span>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">La tua chiave su carta. Con questa rientri da un telefono nuovo, o da un nuovo indirizzo di UNO, senza nuove verifiche.</span>
+<a href="IdentityCards.dc.html" style="min-height: 48px; display: flex; align-items: center; justify-content: center; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none">Stampa di nuovo</a>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Hai perso la tessera? Stampane una nuova e chiedi al Consiglio di sostituire la chiave: chi la trova potrebbe votare al posto tuo, ma non muovere i fondi.</span>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Per il Consiglio la tessera è obbligatoria e va tenuta lontano dalla carta SeedQR.</span>
+</section>
+
+<section aria-labelledby="wallet" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<h2 id="wallet" style="margin: 0; font-size: 17px; font-weight: 600">Ricevere pagamenti</h2>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Per ricevere un pagamento ti serve un wallet bitcoin tuo.</span>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600">Guida: il tuo primo wallet in 5 minuti →</a>
+</section>
+
+<section aria-labelledby="lascia" style="border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="lascia" style="margin: 0; font-size: 17px; font-weight: 600">Lasciare UNO</h2>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448">Puoi uscire quando vuoi, senza voto e senza spiegazioni.</span>
+<button type="button" onClick="{{goConfirm}}" style="min-height: 48px; background: #FFFFFF; color: #7A3306; border: 1px solid #7A3306; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Lascia UNO</button>
+</section>
+
+</div>
+</sc-if>
+
+<sc-if value="{{isConfirm}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Vuoi davvero uscire?</h1>
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<strong style="font-size: 15px">Cosa succede</strong>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; color: #2E4448">
+<li>Esci dall'elenco dei membri alla prossima versione. Non serve un voto.</li>
+<li>I tuoi voti sulle proposte <strong>ancora aperte</strong> vengono ritirati.</li>
+<li>I voti già chiusi e il tuo pseudonimo restano nello storico pubblico: non si possono cancellare.</li>
+<li>Le tue proposte aperte restano in votazione; i pagamenti approvati a tuo favore restano validi.</li>
+<li>Potrai rientrare in futuro, rifacendo l'iscrizione di persona.</li>
+</ul>
+</section>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="conferma" style="font-size: 14px; font-weight: 600">Per confermare scrivi il tuo pseudonimo</label>
+<input id="conferma" type="text" placeholder="@elena" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+</div>
+<button type="button" onClick="{{goDone}}" style="min-height: 52px; background: #7A3306; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Firma e lascia UNO</button>
+<button type="button" onClick="{{goProfile}}" style="min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Resto</button>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Se fai parte del Consiglio non puoi uscire da qui: prima serve una proposta di cambio del Consiglio.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 18px; color: #1F4F53">Hai lasciato UNO</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #1F4F53">La tua uscita è firmata e pubblica. Il tuo nome lascerà l'elenco dei membri alla prossima versione. Grazie per aver partecipato.</span>
+</div>
+<a href="Main.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Torna alla tesoreria pubblica</a>
+<button type="button" onClick="{{goProfile}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1300}}'>
+class Component extends DCLogic {
+renderVals() {
+const v = (this.state && this.state.view) || 'profile';
+const go = (k) => () => this.setState({ view: k });
+return {
+isProfile: v === 'profile', isConfirm: v === 'confirm', isDone: v === 'done',
+goProfile: go('profile'), goConfirm: go('confirm'), goDone: go('done')
+};
+}
+}
+</script>
+</body>
+</html>

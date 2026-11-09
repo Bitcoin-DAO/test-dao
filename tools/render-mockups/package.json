@@ -1,0 +1,9 @@
+{
+  "name": "btc-dao-render-mockups",
+  "description": "Fonts for rendering the btc-dao mock-ups to PNG",
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0"
+  },
+  "private": true
+}

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Firma del giro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1820px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 20px; font-weight: 700; letter-spacing: 0.04em">UNO</div>
+<div style="font-size: 12px; color: #C5D3D4">Area del Consiglio</div>
+</div>
+<span style="min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 14px; background: #FCEBDD; color: #7A3306; display: flex; align-items: center; justify-content: center; font-size: 13px">L</span>@luca</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Giro di pagamenti · 1 dicembre</h1>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Preparato da @anna. Una sola transazione paga tutte le proposte approvate.</p>
+</div>
+
+<section aria-labelledby="firme" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: baseline; justify-content: space-between">
+<h2 id="firme" style="margin: 0; font-size: 17px; font-weight: 600">Firme</h2>
+<span style="font-size: 15px; font-weight: 600">{{sigCount}} di 3</span>
+</div>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px">
+<span style="height: 10px; border-radius: 5px; background: #1F6B70"></span>
+<span style="height: 10px; border-radius: 5px; background: #1F6B70"></span>
+<span style="{{thirdBar}}"></span>
+</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14px">
+<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E3E8E7"><span>@anna</span><span style="color: #1F6B70; font-weight: 600">Firmato ✓</span></li>
+<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E3E8E7"><span>@marco</span><span style="color: #1F6B70; font-weight: 600">Firmato ✓</span></li>
+<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E3E8E7"><span><strong>@luca (tu)</strong></span><span style="{{youStyle}}">{{youStatus}}</span></li>
+<li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #E3E8E7"><span>@sara</span><span style="color: #4A5D61">In attesa</span></li>
+<li style="display: flex; justify-content: space-between; padding: 8px 0"><span>@pietro</span><span style="color: #4A5D61">In attesa</span></li>
+</ul>
+</section>
+
+<section aria-labelledby="uscite" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 id="uscite" style="margin: 0; font-size: 17px; font-weight: 600">Cosa paga questo giro</h2>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Gli indirizzi appaiono come sul SeedSigner: prime e ultime 7 lettere evidenziate. Confronta anche tutte le lettere in mezzo, non solo quelle evidenziate.</p>
+
+<div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; justify-content: space-between; gap: 12px">
+<span style="font-size: 14px; font-weight: 600">UNO-0004 · @luca</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600">85.000</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; line-height: 1.6; word-break: break-all"><strong style="color: #B54D0A">tb1q9w3</strong> he7sak2qd0vgnx6tpzm8f4ylc3uj <strong style="color: #B54D0A">5a2rt5c</strong></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; justify-content: space-between; gap: 12px">
+<span style="font-size: 14px; font-weight: 600">UNO-0007 · Tipografia locale</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600">120.000</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; line-height: 1.6; word-break: break-all"><strong style="color: #B54D0A">tb1q4f8</strong> kw3zr7c9mpdl0h5x2nt6yegsva8u <strong style="color: #B54D0A">3jq2xmp</strong></span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid #E3E8E7">
+<div style="display: flex; justify-content: space-between; gap: 12px">
+<span style="font-size: 14px; color: #4A5D61">Resto alla tesoreria</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #4A5D61">2.243.480</span>
+</div>
+<span style="font-size: 12px; color: #4A5D61">Torna al multisig 3 di 5</span>
+</div>
+
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #4A5D61">
+<span>Commissione di rete</span>
+<span style="font-family: 'IBM Plex Mono', monospace">1.100</span>
+</div>
+
+<div style="background: #E3F0F0; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #1F4F53"><strong>Verificato da questo browser:</strong> le uscite corrispondono esattamente alle 2 proposte approvate. Nessun altro destinatario.</div>
+</section>
+
+<section aria-labelledby="firma" style="background: #FFFFFF; border: 2px solid #B54D0A; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 id="firma" style="margin: 0; font-size: 17px; font-weight: 600">Firma con il tuo SeedSigner</h2>
+
+<sc-if value="{{isReview}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45">
+<li>Inserisci la tua scheda SD e accendi il SeedSigner.</li>
+<li>Scansiona la tua carta SeedQR.</li>
+<li>Controlla che l'impronta della chiave sia <strong style="font-family: 'IBM Plex Mono', monospace">7a3f21c9</strong>.</li>
+<li>Sul SeedSigner seleziona <strong>Scan PSBT</strong>.</li>
+<li>Scansiona il QR del giro che appare qui.</li>
+</ol>
+<button type="button" onClick="{{goShow}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Mostra il QR del giro</button>
+<button type="button" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Rifiuta con motivazione</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isShow}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; align-items: center">
+<div role="img" aria-label="QR animato del giro di pagamenti (segnaposto)" style="width: 260px; height: 260px; border: 2px dashed #9AAAAD; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #4A5D61">QR animato<br>del giro (PSBT)</div>
+<div style="align-self: stretch; background: #F4F6F5; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5">
+<strong>Sullo schermo del SeedSigner controlla:</strong><br>
+· 85.000 a<br><span style="font-family: 'IBM Plex Mono', monospace; word-break: break-all"><strong style="color: #B54D0A">tb1q9w3</strong> he7sak2qd0vgnx6tpzm8f4ylc3uj <strong style="color: #B54D0A">5a2rt5c</strong></span><br>
+· 120.000 a<br><span style="font-family: 'IBM Plex Mono', monospace; word-break: break-all"><strong style="color: #B54D0A">tb1q4f8</strong> kw3zr7c9mpdl0h5x2nt6yegsva8u <strong style="color: #B54D0A">3jq2xmp</strong></span><br>
+· resto che torna alla tesoreria, con il segno «verificato»<br>
+· commissione 1.100
+</div>
+<button type="button" onClick="{{goScan}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Ho firmato: scansiona la firma</button>
+<button type="button" onClick="{{reset}}" style="align-self: stretch; min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isScan}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px; align-items: center">
+<div role="img" aria-label="Fotocamera per scansionare il QR firmato (segnaposto)" style="width: 260px; height: 200px; background: #10292E; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #C5D3D4">Fotocamera<br>inquadra il QR firmato<br>sul SeedSigner</div>
+<button type="button" onClick="{{goDone}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Simula: firma letta</button>
+<button type="button" onClick="{{goShow}}" style="align-self: stretch; min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Indietro</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="background: #E3F0F0; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<strong style="font-size: 16px; color: #1F4F53">Terza firma ricevuta ✓</strong>
+<span style="font-size: 14px; color: #1F4F53">La transazione è stata trasmessa. Le proposte passano a «Pagata» alla prima conferma.</span>
+</div>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 600">Vedi la transazione sulla blockchain ↗</a>
+<button type="button" onClick="{{reset}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+</section>
+
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Questo sito non può firmare: solo il tuo SeedSigner può. Una firma da sola non sposta nulla; ne servono 3 su 5.</p>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="CouncilInbox.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Consiglio</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1820}}'>
+class Component extends DCLogic {
+renderVals() {
+const step = (this.state && this.state.step) || 'review';
+const done = step === 'done';
+return {
+isReview: step === 'review',
+isShow: step === 'show',
+isScan: step === 'scan',
+isDone: done,
+sigCount: done ? '3' : '2',
+thirdBar: done ? 'height: 10px; border-radius: 5px; background: #1F6B70' : 'height: 10px; border-radius: 5px; background: #E3E8E7',
+youStatus: done ? 'Firmato ✓' : 'Da firmare',
+youStyle: done ? 'color: #1F6B70; font-weight: 600' : 'color: #B54D0A; font-weight: 600',
+goShow: () => this.setState({ step: 'show' }),
+goScan: () => this.setState({ step: 'scan' }),
+goDone: () => this.setState({ step: 'done' }),
+reset: () => this.setState({ step: 'review' })
+};
+}
+}
+</script>
+</body>
+</html>

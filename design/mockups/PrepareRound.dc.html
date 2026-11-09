@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Prepara il giro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1600px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="CouncilInbox.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Consiglio</a>
+<span style="min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 14px; background: #FCEBDD; color: #7A3306; display: flex; align-items: center; justify-content: center; font-size: 13px">L</span>@luca</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Prepara il giro del 1 gennaio</h1>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Il giro include in automatico ogni pagamento approvato con indirizzo confermato. Non si possono aggiungere o togliere pagamenti a mano.</p>
+</div>
+
+<section aria-labelledby="incluse" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<h2 id="incluse" style="margin: 0; font-size: 17px; font-weight: 600">Pagamenti inclusi</h2>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between; gap: 12px">
+<span style="font-size: 14px; font-weight: 600">UNO-0008 · Bar della piazza</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600">40.000</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; line-height: 1.6; word-break: break-all"><strong style="color: #B54D0A">tb1q6dz</strong> 3w8kq2ve0p7h4xyn9tc5mfr3sga2 <strong style="color: #B54D0A">uj8le0d</strong></span>
+<span style="font-size: 12px; color: #1F6B70; font-weight: 500">Approvata · indirizzo confermato ✓</span>
+</div>
+<div style="border-top: 1px solid #E3E8E7; padding-top: 12px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; font-weight: 600; color: #7A3306">Esclusa: UNO-0011 · Noleggio sala</span>
+<span style="font-size: 12px; color: #4A5D61">Approvata, ma il beneficiario non ha ancora confermato l'indirizzo. Decade se non entra entro 2 giri.</span>
+</div>
+</section>
+
+<fieldset style="margin: 0; background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<legend style="padding: 0 4px; font-size: 17px; font-weight: 600">Commissione di rete</legend>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+<button type="button" aria-pressed="{{pSlow}}" onClick="{{slow}}" style="{{sSlow}}">Lenta<br><span style="font-size: 12px; font-weight: 400">2 sat/vB</span></button>
+<button type="button" aria-pressed="{{pNormal}}" onClick="{{normal}}" style="{{sNormal}}">Normale<br><span style="font-size: 12px; font-weight: 400">3 sat/vB</span></button>
+<button type="button" aria-pressed="{{pFast}}" onClick="{{fast}}" style="{{sFast}}">Veloce<br><span style="font-size: 12px; font-weight: 400">5 sat/vB</span></button>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Tariffe suggerite dalla rete in questo momento.</span>
+</fieldset>
+
+<section aria-labelledby="totali" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="totali" style="margin: 0 0 4px; font-size: 17px; font-weight: 600">Riepilogo</h2>
+<div style="display: flex; justify-content: space-between; font-size: 14px"><span>Pagamenti</span><span style="font-family: 'IBM Plex Mono', monospace">40.000</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px"><span>Commissione</span><span style="font-family: 'IBM Plex Mono', monospace">{{fee}}</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 14px; color: #4A5D61"><span>Resto alla tesoreria</span><span style="font-family: 'IBM Plex Mono', monospace">{{change}}</span></div>
+<div style="margin-top: 6px; background: #E3F0F0; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; color: #1F4F53"><strong>✓ Sotto il tetto della commissione</strong> (20 sat/vB, dalle regole). Se la rete chiede di più, il giro aspetta il mese successivo e quel mese non conta per la decadenza.</div>
+</section>
+
+<sc-if value="{{notDone}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" onClick="{{create}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Crea e pubblica il giro</button>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Ogni browser del Consiglio ricalcolerà le uscite dalle proposte approvate prima di permettere la firma.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<strong style="font-size: 16px; color: #1F4F53">Giro pubblicato ✓</strong>
+<span style="font-size: 14px; color: #1F4F53">Ora servono 3 firme su 5. Gli altri membri del Consiglio lo vedono in «Da fare».</span>
+<a href="Signing.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 15px; font-weight: 600">Firma per primo →</a>
+</div>
+</sc-if>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="CouncilInbox.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Consiglio</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1600}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const r = s.rate || 'normal';
+const fees = { slow: [560, '560', '2.202.920'], normal: [840, '840', '2.202.640'], fast: [1400, '1.400', '2.202.080'] };
+const base = 'min-height: 56px; padding: 6px; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; ';
+const on = base + 'background: #10292E; color: #FFFFFF; border: 1px solid #10292E;';
+const off = base + 'background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD;';
+const pick = (k) => () => this.setState({ rate: k });
+return {
+sSlow: r === 'slow' ? on : off, sNormal: r === 'normal' ? on : off, sFast: r === 'fast' ? on : off,
+pSlow: String(r === 'slow'), pNormal: String(r === 'normal'), pFast: String(r === 'fast'),
+slow: pick('slow'), normal: pick('normal'), fast: pick('fast'),
+fee: fees[r][1], change: fees[r][2],
+done: !!s.done, notDone: !s.done,
+create: () => this.setState({ done: true })
+};
+}
+}
+</script>
+</body>
+</html>

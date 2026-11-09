@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Nuova proposta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1960px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Proposte</a>
+<span style="min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 14px; background: #E3F0F0; color: #10292E; display: flex; align-items: center; justify-content: center; font-size: 13px">A</span>@anna</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 18px">
+
+<h1 style="margin: 0; font-size: 26px; font-weight: 700">Nuova proposta</h1>
+
+<fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="padding: 0; margin-bottom: 8px; font-size: 14px; font-weight: 600">Che tipo di proposta?</legend>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button type="button" aria-pressed="{{pPayout}}" onClick="{{setPayout}}" style="{{sPayout}}">Pagamento</button>
+<button type="button" aria-pressed="{{pStatement}}" onClick="{{setStatement}}" style="{{sStatement}}">Dichiarazione</button>
+<button type="button" aria-pressed="{{pMember}}" onClick="{{setMember}}" style="{{sMember}}">Nuovo membro</button>
+<button type="button" aria-pressed="{{pRemove}}" onClick="{{setRemove}}" style="{{sRemove}}">Rimuovere un membro</button>
+<button type="button" aria-pressed="{{pRules}}" onClick="{{setRules}}" style="{{sRules}}">Cambiare le regole</button>
+<button type="button" aria-pressed="{{pCouncil}}" onClick="{{setCouncil}}" style="{{sCouncil}}">Cambiare il Consiglio</button>
+</div>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">{{typeHint}}</p>
+</fieldset>
+
+<section aria-labelledby="comuni" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="comuni" style="margin: 0; font-size: 17px; font-weight: 600">La proposta</h2>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="titolo" style="font-size: 14px; font-weight: 600">Titolo</label>
+<input id="titolo" type="text" maxlength="80" defaultValue="Caffè e cornetti per il meetup di gennaio" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61; align-self: flex-end">40 / 80</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="sintesi" style="font-size: 14px; font-weight: 600">Sintesi</label>
+<span style="font-size: 12px; color: #4A5D61">È il testo vincolante su cui i membri votano.</span>
+<textarea id="sintesi" maxlength="500" rows="4" defaultValue="Colazione per circa 30 partecipanti al meetup di gennaio, pagata in bitcoin al bar che ci ospita." style="padding: 10px 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; line-height: 1.45; color: #10292E; resize: vertical"></textarea>
+<span style="font-size: 12px; color: #4A5D61; align-self: flex-end">98 / 500</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="link" style="font-size: 14px; font-weight: 600">Link al testo completo <span style="font-weight: 400; color: #4A5D61">(facoltativo)</span></label>
+<input id="link" type="url" placeholder="https://" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">Alla pubblicazione registriamo un'impronta della pagina: se cambia dopo, si vedrà.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="lingua" style="font-size: 14px; font-weight: 600">Lingua</label>
+<select id="lingua" defaultValue="it" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px; color: #10292E">
+<option value="it">Italiano</option>
+<option value="en">English</option>
+</select>
+</div>
+</section>
+
+<sc-if value="{{isPayout}}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="pagamento" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="pagamento" style="margin: 0; font-size: 17px; font-weight: 600">Il pagamento</h2>
+
+<label style="min-height: 44px; display: flex; align-items: center; gap: 10px; font-size: 15px">
+<input type="checkbox" checked="{{selfRecipient}}" onChange="{{toggleSelf}}" style="width: 22px; height: 22px; accent-color: #1F6B70">
+Il pagamento è per me
+</label>
+
+<sc-if value="{{notSelf}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="beneficiario" style="font-size: 14px; font-weight: 600">Beneficiario</label>
+<input id="beneficiario" type="text" defaultValue="Bar della piazza" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">Nome o pseudonimo. Può non essere un membro.</span>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="indirizzo" style="font-size: 14px; font-weight: 600">Indirizzo bitcoin del beneficiario</label>
+<span style="font-size: 12px; color: #4A5D61">Un indirizzo nuovo, mostrato dal wallet del beneficiario. Mai scritto a mano.</span>
+<div style="display: flex; gap: 8px">
+<input id="indirizzo" type="text" autocomplete="off" spellcheck="false" defaultValue="tb1q6dz3w8kq2ve0p7h4xyn9tc5mfr3sga2uj8le0d" style="flex: 1; min-width: 0; min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #10292E">
+<button type="button" style="min-height: 48px; padding: 0 14px; background: #10292E; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Scansiona QR</button>
+</div>
+<div style="background: #E3F0F0; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #1F4F53; font-weight: 600">✓ Indirizzo valido · rete di prova · non appartiene alla tesoreria</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; line-height: 1.6; word-break: break-all"><strong style="color: #B54D0A">tb1q6dz</strong> 3w8kq2ve0p7h4xyn9tc5mfr3sga2 <strong style="color: #B54D0A">uj8le0d</strong></span>
+<span style="font-size: 12px; color: #1F4F53">Così lo vedrà il Consiglio sul SeedSigner.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="importo" style="font-size: 14px; font-weight: 600">Importo in sats</label>
+<input id="importo" type="text" inputmode="numeric" defaultValue="40.000" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #10292E">
+<span style="font-size: 12px; color: #4A5D61">≈ € [stima] · L'importo resta fisso in sats.</span>
+</div>
+
+<sc-if value="{{notSelf}}" hint-placeholder-val="{{ true }}">
+<div style="border: 1px solid #1F6B70; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; color: #10292E"><strong>Il beneficiario deve confermare l'indirizzo</strong> dalla pagina della proposta, prima che il voto si chiuda. Senza conferma la proposta non entra nel giro di pagamenti.</span>
+<button type="button" style="min-height: 44px; padding: 0 12px; background: transparent; border: 1px solid #1F6B70; border-radius: 8px; color: #1F4F53; font-family: inherit; font-size: 14px; font-weight: 600; align-self: flex-start">Copia il link di conferma</button>
+</div>
+</sc-if>
+
+<sc-if value="{{selfRecipient}}" hint-placeholder-val="{{ false }}">
+<div style="background: #FCEBDD; border-radius: 8px; padding: 12px 14px; font-size: 14px; color: #7A3306"><strong>Sei il beneficiario:</strong> non potrai votare questa proposta, e sarà segnalata a tutti.</div>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{isStatement}}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; font-size: 14px; color: #2E4448">Una dichiarazione usa solo titolo, sintesi e link. Se approvata, diventa una decisione di UNO.</div>
+</sc-if>
+
+<sc-if value="{{isMember}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="membro" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="membro" style="margin: 0; font-size: 17px; font-weight: 600">Il nuovo membro</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="candidato" style="font-size: 14px; font-weight: 600">Nome o pseudonimo</label>
+<input id="candidato" type="text" placeholder="@" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 600">Chiave d'identità del candidato</span>
+<span style="font-size: 12px; color: #4A5D61">Creata dal candidato all'incontro, di persona.</span>
+<a href="SponsorMember.dc.html" style="min-height: 48px; display: flex; align-items: center; justify-content: center; background: #10292E; color: #FFFFFF; border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none">Scansiona il codice del candidato</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="verifica" style="font-size: 14px; font-weight: 600">Verificato di persona da</label>
+<select id="verifica" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px">
+<option>Scegli un membro del Consiglio</option>
+<option>@anna</option>
+<option>@luca</option>
+<option>@marco</option>
+<option>@sara</option>
+<option>@pietro</option>
+</select>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Tu risulti come chi presenta il candidato.</span>
+</section>
+</sc-if>
+
+<sc-if value="{{isRemove}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="rimuovi" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="rimuovi" style="margin: 0; font-size: 17px; font-weight: 600">Rimuovere un membro</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="chi" style="font-size: 14px; font-weight: 600">Membro</label>
+<select id="chi" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px"><option>Scegli un membro</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="motivo" style="font-size: 14px; font-weight: 600">Motivo</label>
+<textarea id="motivo" rows="3" style="padding: 10px 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px"></textarea>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Serve la maggioranza dei due terzi.</span>
+</section>
+</sc-if>
+
+<sc-if value="{{isRules}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="regole" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="regole" style="margin: 0; font-size: 17px; font-weight: 600">Quale regola</h2>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="regola" style="font-size: 14px; font-weight: 600">Regola</label>
+<select id="regola" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px">
+<option>Durata del voto</option>
+<option>Quorum</option>
+<option>Frequenza dei pagamenti</option>
+<option>Tetto della tesoreria</option>
+<option>Commissione massima</option>
+</select>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 600">Valore attuale</span>
+<span style="min-height: 48px; display: flex; align-items: center; font-size: 15px; color: #4A5D61">7 giorni</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nuovo" style="font-size: 14px; font-weight: 600">Nuovo valore</label>
+<input id="nuovo" type="text" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px">
+</div>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Serve la maggioranza dei due terzi e la conferma di 3 membri del Consiglio.</span>
+</section>
+</sc-if>
+
+<sc-if value="{{isCouncil}}" hint-placeholder-val="{{ false }}">
+<section aria-labelledby="consiglio" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px">
+<h2 id="consiglio" style="margin: 0; font-size: 17px; font-weight: 600">Cambio nel Consiglio</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="esce" style="font-size: 14px; font-weight: 600">Esce</label>
+<select id="esce" style="min-height: 48px; padding: 0 8px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px"><option>Scegli</option></select>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="entra" style="font-size: 14px; font-weight: 600">Entra</label>
+<select id="entra" style="min-height: 48px; padding: 0 8px; border: 1px solid #9AAAAD; border-radius: 8px; background: #FFFFFF; font-family: inherit; font-size: 15px"><option>Scegli</option></select>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 600">Chiave pubblica del nuovo membro</span>
+<span style="font-size: 12px; color: #4A5D61">Dalla sua cerimonia delle chiavi, letta dal SeedSigner.</span>
+<button type="button" style="min-height: 48px; background: #10292E; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Scansiona la chiave pubblica</button>
+</div>
+<span style="font-size: 13px; color: #4A5D61">Firme necessarie restano 3 su 5. Se approvata, i fondi passano a un nuovo indirizzo della tesoreria, mostrato qui prima del voto.</span>
+</section>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<button type="button" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Pubblica la proposta</button>
+<button type="button" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Anteprima</button>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">La proposta viene firmata con la tua chiave d'identità e resta pubblica per sempre. Il voto dura 7 giorni.</p>
+</div>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1960}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const t = s.type || 'payout';
+const self = !!s.self;
+const base = 'min-height: 48px; padding: 0 8px; border-radius: 8px; font-family: inherit; font-size: 14px; ';
+const on = base + 'background: #10292E; color: #FFFFFF; border: 1px solid #10292E; font-weight: 600;';
+const off = base + 'background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; font-weight: 500;';
+const hints = {
+payout: 'Paga una o più persone dalla tesoreria. Maggioranza semplice.',
+statement: 'Adotta un testo: una decisione o una carta. Maggioranza semplice.',
+member: 'Ammette una persona incontrata di persona. Maggioranza semplice e conferma del Consiglio.',
+remove: 'Toglie una persona dai membri. Maggioranza dei due terzi.',
+rules: 'Cambia un valore delle regole. Maggioranza dei due terzi.',
+council: 'Sostituisce un custode di chiave. Maggioranza dei due terzi.'
+};
+const pick = (k) => () => this.setState({ type: k });
+return {
+isPayout: t === 'payout', isStatement: t === 'statement', isMember: t === 'member',
+isRemove: t === 'remove', isRules: t === 'rules', isCouncil: t === 'council',
+sPayout: t === 'payout' ? on : off, sStatement: t === 'statement' ? on : off, sMember: t === 'member' ? on : off,
+sRemove: t === 'remove' ? on : off, sRules: t === 'rules' ? on : off, sCouncil: t === 'council' ? on : off,
+pPayout: String(t === 'payout'), pStatement: String(t === 'statement'), pMember: String(t === 'member'),
+pRemove: String(t === 'remove'), pRules: String(t === 'rules'), pCouncil: String(t === 'council'),
+setPayout: pick('payout'), setStatement: pick('statement'), setMember: pick('member'),
+setRemove: pick('remove'), setRules: pick('rules'), setCouncil: pick('council'),
+typeHint: hints[t],
+selfRecipient: self,
+notSelf: !self,
+toggleSelf: () => this.setState({ self: !self })
+};
+}
+}
+</script>
+</body>
+</html>

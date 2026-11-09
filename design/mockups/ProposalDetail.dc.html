@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Dettaglio proposta</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 2200px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Proposte</a>
+<span style="font-size: 14px; color: #C5D3D4">Archivio</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<nav aria-label="Proposta precedente e successiva" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: center">
+<button type="button" onClick="{{newer}}" disabled="{{atNewest}}" style="{{newerStyle}}">← Più recente</button>
+<span style="text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #4A5D61">{{position}}</span>
+<button type="button" onClick="{{older}}" disabled="{{atOldest}}" style="{{olderStyle}}">Più vecchia →</button>
+</nav>
+
+<article aria-labelledby="titolo" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; color: #4A5D61">{{p.id}}</span>
+<span style="background: #F4F6F5; border-radius: 6px; padding: 2px 8px">{{p.type}}</span>
+<span style="{{p.statusStyle}}">{{p.status}}</span>
+</div>
+<h1 id="titolo" style="margin: 0; font-size: 22px; font-weight: 700; line-height: 1.3">{{p.title}}</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">{{p.summary}}</p>
+<dl style="margin: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px 12px; font-size: 14px">
+<sc-for list="{{p.rows}}" as="r" hint-placeholder-count="3">
+<dt style="color: #4A5D61">{{r.k}}</dt>
+<dd style="margin: 0">{{r.v}}</dd>
+</sc-for>
+</dl>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Testo completo ↗ · impronta registrata</a>
+</article>
+
+<section aria-labelledby="voto" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<h2 id="voto" style="margin: 0; font-size: 17px; font-weight: 600">Voto</h2>
+<div aria-hidden="true" style="display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: #E3E8E7">
+<span style="{{p.yesBar}}"></span>
+<span style="{{p.noBar}}"></span>
+</div>
+<span style="font-size: 14px"><strong>Sì {{p.yes}}</strong> · No {{p.no}} · Astenuti {{p.abs}}</span>
+<div style="background: #F4F6F5; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; color: #2E4448">{{p.tally}}</div>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; font-size: 14px; font-weight: 500">Vedi il voto di ogni membro</a>
+</section>
+
+<section aria-labelledby="storia" style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 4px">
+<h2 id="storia" style="margin: 0 0 8px; font-size: 17px; font-weight: 600">Storia</h2>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+<sc-for list="{{p.steps}}" as="s" hint-placeholder-count="5">
+<li style="display: flex; gap: 12px; padding: 8px 0">
+<span aria-hidden="true" style="{{s.dot}}"></span>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="{{s.labelStyle}}">{{s.label}}</span>
+<span style="font-size: 12px; color: #4A5D61">{{s.when}}</span>
+</div>
+</li>
+</sc-for>
+</ol>
+</section>
+
+<section aria-labelledby="archivio" style="display: flex; flex-direction: column; gap: 8px">
+<h2 id="archivio" style="margin: 0; font-size: 17px; font-weight: 600">Tutte le proposte</h2>
+<p style="margin: 0; font-size: 13px; color: #4A5D61">Dalla più recente alla prima. Tocca per aprirla.</p>
+<sc-for list="{{list}}" as="it" hint-placeholder-count="8">
+<button type="button" onClick="{{it.open}}" aria-current="{{it.current}}" style="{{it.style}}">
+<span style="display: flex; justify-content: space-between; gap: 8px; font-size: 12px"><span style="font-family: 'IBM Plex Mono', monospace; color: #4A5D61">{{it.id}}</span><span style="color: #4A5D61">{{it.status}}</span></span>
+<span style="font-size: 14px; font-weight: 600; text-align: left">{{it.title}}</span>
+</button>
+</sc-for>
+</section>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2200}}'>
+class Component extends DCLogic {
+renderVals() {
+const chip = 'border-radius: 6px; padding: 2px 8px; font-weight: 600; ';
+const voting = chip + 'background: #E3F0F0; color: #1F4F53;';
+const passed = chip + 'background: #FCEBDD; color: #7A3306;';
+const done = chip + 'background: #10292E; color: #FFFFFF;';
+const st = (label, when, isDone) => ({
+label: label, when: when,
+dot: 'flex-shrink: 0; margin-top: 4px; width: 12px; height: 12px; border-radius: 6px; box-sizing: border-box; ' + (isDone ? 'background: #1F6B70;' : 'border: 2px solid #9AAAAD;'),
+labelStyle: 'font-size: 14px; ' + (isDone ? 'font-weight: 600; color: #10292E;' : 'color: #4A5D61;')
+});
+const P = [
+{ id: 'UNO-0008', type: 'Pagamento', status: 'In votazione', statusStyle: voting, title: 'Caffè e cornetti per il meetup di gennaio',
+summary: 'Colazione per circa 30 partecipanti al meetup di gennaio, pagata in bitcoin al bar che ci ospita.',
+rows: [{ k: 'Importo', v: '40.000 sats' }, { k: 'Beneficiario', v: 'Bar della piazza · indirizzo confermato ✓' }, { k: 'Proposta da', v: '@anna' }],
+yes: 4, no: 0, abs: 0, tally: 'Conteggio finale: alla chiusura un membro del Consiglio pubblica l’elenco firmato dei voti contati.',
+steps: [st('Pubblicata', '2 nov', true), st('Indirizzo confermato dal beneficiario', '2 nov', true), st('Chiusura del voto', '9 nov', false), st('Conteggio finale firmato', 'alla chiusura', false), st('Ancorata su Bitcoin', 'dopo il conteggio', false), st('Pagata', 'giro successivo', false)] },
+{ id: 'UNO-0007', type: 'Pagamento', status: 'In votazione', statusStyle: voting, title: 'Stampa dei volantini per il meetup di dicembre',
+summary: '500 volantini A5 per invitare commercianti e residenti al meetup sul bitcoin del 14 dicembre.',
+rows: [{ k: 'Importo', v: '120.000 sats' }, { k: 'Beneficiario', v: 'Tipografia locale · indirizzo confermato ✓' }, { k: 'Proposta da', v: '@maria' }],
+yes: 9, no: 2, abs: 1, tally: 'Conteggio finale: alla chiusura un membro del Consiglio pubblica l’elenco firmato dei voti contati.',
+steps: [st('Pubblicata', '29 ott', true), st('Indirizzo confermato dal beneficiario', '30 ott', true), st('Chiusura del voto', '5 nov', false), st('Conteggio finale firmato', 'alla chiusura', false), st('Ancorata su Bitcoin', 'dopo il conteggio', false), st('Pagata', 'giro del 1 dic', false)] },
+{ id: 'UNO-0006', type: 'Dichiarazione', status: 'In votazione', statusStyle: voting, title: 'Carta fondativa di UNO',
+summary: 'A cosa servono i fondi e come ci comportiamo come membri. Una pagina, accettata da ogni nuovo membro.',
+rows: [{ k: 'Proposta da', v: '@anna' }],
+yes: 11, no: 0, abs: 0, tally: 'Conteggio finale: alla chiusura un membro del Consiglio pubblica l’elenco firmato dei voti contati.',
+steps: [st('Pubblicata', '31 ott', true), st('Chiusura del voto', '7 nov', false), st('Conteggio finale firmato', 'alla chiusura', false), st('Ancorata su Bitcoin', 'dopo il conteggio', false)] },
+{ id: 'UNO-0005', type: 'Nuovo membro', status: 'Approvata', statusStyle: passed, title: 'Ammettere @giuseppe',
+summary: 'Presentato da @anna, verificato di persona da un membro del Consiglio.',
+rows: [{ k: 'Presentato da', v: '@anna' }, { k: 'Conferme Consiglio', v: '2 di 3' }],
+yes: 10, no: 1, abs: 0, tally: 'Conteggio firmato da @marco il 27 ott: 11 voti contati, nessuno escluso.',
+steps: [st('Pubblicata', '20 ott', true), st('Voto chiuso: approvata', '27 ott', true), st('Conteggio finale firmato', '27 ott · @marco', true), st('Ancorata su Bitcoin', '28 ott · blocco [numero]', true), st('Conferme del Consiglio', '2 di 3', false)] },
+{ id: 'UNO-0004', type: 'Pagamento', status: 'Nel giro del 1 dic', statusStyle: passed, title: 'Un SeedSigner di riserva per il Consiglio',
+summary: 'Rimborso a @luca per l’acquisto del secondo SeedSigner, tenuto sigillato tra un giro e l’altro.',
+rows: [{ k: 'Importo', v: '85.000 sats' }, { k: 'Beneficiario', v: '@luca (membro: non ha votato)' }, { k: 'Proposta da', v: '@sara' }],
+yes: 8, no: 3, abs: 2, tally: 'Conteggio firmato da @anna il 22 ott: 13 voti contati, 1 escluso perché arrivato dopo la chiusura.',
+steps: [st('Pubblicata', '15 ott', true), st('Voto chiuso: approvata', '22 ott', true), st('Conteggio finale firmato', '22 ott · @anna', true), st('Ancorata su Bitcoin', '23 ott · blocco [numero]', true), st('Pagata', 'giro del 1 dic', false)] },
+{ id: 'UNO-0003', type: 'Pagamento', status: 'Pagata', statusStyle: done, title: 'Workshop wallet per principianti',
+summary: 'Sala, proiettore e materiali per un pomeriggio di workshop sui wallet bitcoin.',
+rows: [{ k: 'Importo', v: '150.000 sats' }, { k: 'Firmata da', v: '3 su 5 del Consiglio' }],
+yes: 12, no: 0, abs: 1, tally: 'Conteggio firmato da @pietro il 17 set: 13 voti contati, nessuno escluso.',
+steps: [st('Pubblicata', '10 set', true), st('Voto chiuso: approvata', '17 set', true), st('Conteggio finale firmato', '17 set · @pietro', true), st('Ancorata su Bitcoin', '18 set · blocco [numero]', true), st('Pagata · ricevuta sulla blockchain', '1 ott', true)] },
+{ id: 'UNO-0002', type: 'Dichiarazione', status: 'Approvata', statusStyle: done, title: 'Regole iniziali di voto',
+summary: 'Un membro, un voto; quorum di un terzo; voto di 7 giorni; pagamenti una volta al mese.',
+rows: [{ k: 'Proposta da', v: '@marco' }],
+yes: 9, no: 0, abs: 0, tally: 'Conteggio firmato da @sara l’8 set: 9 voti contati, nessuno escluso.',
+steps: [st('Pubblicata', '1 set', true), st('Voto chiuso: approvata', '8 set', true), st('Conteggio finale firmato', '8 set · @sara', true), st('Ancorata su Bitcoin', '9 set · blocco [numero]', true)] },
+{ id: 'UNO-0001', type: 'Dichiarazione', status: 'Approvata', statusStyle: done, title: 'Nascita di UNO e Consiglio fondatore',
+summary: 'Fondazione della DAO e nomina dei cinque custodi delle chiavi della tesoreria.',
+rows: [{ k: 'Proposta da', v: '@anna' }],
+yes: 7, no: 0, abs: 0, tally: 'Conteggio firmato dal Consiglio fondatore il 1 set: 7 voti contati.',
+steps: [st('Pubblicata', '25 ago', true), st('Voto chiuso: approvata', '1 set', true), st('Conteggio finale firmato', '1 set', true), st('Ancorata su Bitcoin', '2 set · blocco [numero]', true)] }
+];
+const i = (this.state && typeof this.state.i === 'number') ? this.state.i : 1;
+const cur = P[i];
+const tot = cur.yes + cur.no + cur.abs;
+const pct = (n) => tot ? Math.round(n / tot * 100) : 0;
+cur.yesBar = 'width: ' + pct(cur.yes) + '%; background: #1F6B70';
+cur.noBar = 'width: ' + pct(cur.no) + '%; background: #E8A87C';
+const btn = (off) => 'min-height: 44px; padding: 0 8px; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; border: 1px solid #9AAAAD; ' + (off ? 'background: #F4F6F5; color: #9AAAAD;' : 'background: #FFFFFF; color: #10292E;');
+return {
+p: cur,
+position: (i + 1) + ' di ' + P.length,
+atNewest: i === 0, atOldest: i === P.length - 1,
+newerStyle: btn(i === 0), olderStyle: btn(i === P.length - 1),
+newer: () => this.setState({ i: Math.max(0, i - 1) }),
+older: () => this.setState({ i: Math.min(P.length - 1, i + 1) }),
+list: P.map((x, k) => ({
+id: x.id, title: x.title, status: x.status,
+current: k === i ? 'true' : 'false',
+style: 'min-height: 56px; padding: 10px 14px; border-radius: 10px; font-family: inherit; color: #10292E; display: flex; flex-direction: column; gap: 4px; ' + (k === i ? 'background: #E3F0F0; border: 2px solid #1F6B70;' : 'background: #FFFFFF; border: 1px solid #D5DDDC;'),
+open: () => this.setState({ i: k })
+}))
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Foglio di recupero</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 794px; height: 1123px; box-sizing: border-box; padding: 48px 52px; background: #FFFFFF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; border-bottom: 2px solid #10292E; padding-bottom: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.06em">UNO</span>
+<h1 style="margin: 0; font-size: 26px; font-weight: 700">Foglio di recupero · Recovery sheet</h1>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 12px; color: #444444">
+<span>Rete / Network: <strong style="color: #10292E">testnet4 (prova)</strong></span>
+<span>Creato / Created: 1 set 2026 · versione 1</span>
+<span style="color: #7A3306; font-weight: 600">Esempio · Sample</span>
+</div>
+</div>
+
+<div style="border: 2px solid #B54D0A; border-radius: 8px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; line-height: 1.45">
+<span><strong>Questo foglio non può spendere nulla.</strong> Insieme a 3 semi del Consiglio recupera tutta la tesoreria. <strong>Senza questo foglio i semi da soli non bastano:</strong> conservane più copie, lontano dai semi.</span>
+<span style="color: #444444">This sheet cannot spend anything. With 3 council seeds it recovers the whole treasury. Without it the seeds alone are not enough: keep several copies, away from the seeds.</span>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #444444">Soglia / Threshold</span><span style="font-size: 16px; font-weight: 700">3 di 5</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #444444">Tipo / Type</span><span style="font-size: 16px; font-weight: 700">P2WSH multisig</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #444444">Percorso / Path</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600">m/48'/1'/0'/2'</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; color: #444444">Ordine chiavi / Key order</span><span style="font-size: 16px; font-weight: 700">sortedmulti</span></div>
+</div>
+
+<table style="border-collapse: collapse; width: 100%; font-size: 13px">
+<caption style="text-align: left; font-size: 14px; font-weight: 700; padding-bottom: 6px">Custodi delle chiavi · Keyholders</caption>
+<thead>
+<tr style="border-bottom: 2px solid #10292E">
+<th scope="col" style="text-align: left; padding: 6px 8px 6px 0; font-weight: 600">#</th>
+<th scope="col" style="text-align: left; padding: 6px 8px; font-weight: 600">Membro del Consiglio · Council member</th>
+<th scope="col" style="text-align: left; padding: 6px 8px; font-weight: 600">Impronta · Fingerprint</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid #9AAAAD"><td style="padding: 6px 8px 6px 0">1</td><td style="padding: 6px 8px">@anna</td><td style="padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600">3c91e0a4</td></tr>
+<tr style="border-bottom: 1px solid #9AAAAD"><td style="padding: 6px 8px 6px 0">2</td><td style="padding: 6px 8px">@marco</td><td style="padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600">b52d7f18</td></tr>
+<tr style="border-bottom: 1px solid #9AAAAD"><td style="padding: 6px 8px 6px 0">3</td><td style="padding: 6px 8px">@luca</td><td style="padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600">7a3f21c9</td></tr>
+<tr style="border-bottom: 1px solid #9AAAAD"><td style="padding: 6px 8px 6px 0">4</td><td style="padding: 6px 8px">@sara</td><td style="padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600">e04a6b3d</td></tr>
+<tr style="border-bottom: 1px solid #9AAAAD"><td style="padding: 6px 8px 6px 0">5</td><td style="padding: 6px 8px">@pietro</td><td style="padding: 6px 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600">91fd2c57</td></tr>
+</tbody>
+</table>
+
+<div style="display: flex; gap: 20px; align-items: flex-start">
+<div role="img" aria-label="Codice QR del descrittore (segnaposto)" style="width: 170px; height: 170px; flex-shrink: 0; border: 2px dashed #9AAAAD; border-radius: 6px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; color: #444444">QR del descrittore<br>Descriptor QR</div>
+<div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<span style="font-size: 14px; font-weight: 700">Descrittore del wallet · Wallet descriptor</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.55; word-break: break-all">wsh(sortedmulti(3,[3c91e0a4/48h/1h/0h/2h][tpub di @anna]/&lt;0;1&gt;/*,[b52d7f18/48h/1h/0h/2h][tpub di @marco]/&lt;0;1&gt;/*,[7a3f21c9/48h/1h/0h/2h][tpub di @luca]/&lt;0;1&gt;/*,[e04a6b3d/48h/1h/0h/2h][tpub di @sara]/&lt;0;1&gt;/*,[91fd2c57/48h/1h/0h/2h][tpub di @pietro]/&lt;0;1&gt;/*))#[checksum]</span>
+<span style="font-size: 12px; color: #444444">Copia il testo esattamente, compreso il checksum finale. · Copy it exactly, including the final checksum.</span>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 700">Come recuperare i fondi</span>
+<ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; line-height: 1.45">
+<li>Installa Sparrow o un altro wallet che legga i descrittori.</li>
+<li>Crea un nuovo wallet importando il descrittore: QR o testo.</li>
+<li>Controlla che le 5 impronte coincidano con la tabella.</li>
+<li>Prepara la transazione e firmala con 3 semi del Consiglio.</li>
+<li>Trasmettila. Non serve alcun sito o server di UNO.</li>
+</ol>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; font-weight: 700">How to recover the funds</span>
+<ol style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; line-height: 1.45; color: #2E2E2E">
+<li>Install Sparrow or another wallet that reads descriptors.</li>
+<li>Create a new wallet by importing the descriptor: QR or text.</li>
+<li>Check the 5 fingerprints match the table.</li>
+<li>Build the transaction and sign it with 3 council seeds.</li>
+<li>Broadcast it. No UNO website or server is needed.</li>
+</ol>
+</div>
+</div>
+
+<div style="margin-top: auto; border-top: 1px solid #9AAAAD; padding-top: 10px; display: flex; justify-content: space-between; gap: 24px; font-size: 12px; color: #444444">
+<span>Una copia per ogni membro del Consiglio, più una nel repository pubblico btc-dao.</span>
+<span>Nuova versione a ogni cambio del Consiglio.</span>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":794,"height":1123}}'>
+class Component extends DCLogic {
+renderVals() {
+return {
+keys: [
+{ n: '1', name: '@anna', fp: '3c91e0a4' },
+{ n: '2', name: '@marco', fp: 'b52d7f18' },
+{ n: '3', name: '@luca', fp: '7a3f21c9' },
+{ n: '4', name: '@sara', fp: 'e04a6b3d' },
+{ n: '5', name: '@pietro', fp: '91fd2c57' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

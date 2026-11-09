@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Proponi un nuovo membro</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1500px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="NewProposal.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Nuova proposta</a>
+<span style="min-height: 44px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600"><span aria-hidden="true" style="width: 28px; height: 28px; border-radius: 14px; background: #E3F0F0; color: #10292E; display: flex; align-items: center; justify-content: center; font-size: 13px">A</span>@anna</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700">Proponi un nuovo membro</h1>
+<p style="margin: 0; font-size: 14px; color: #4A5D61">Presenti solo persone che conosci davvero. Il tuo nome resta sulla proposta.</p>
+</div>
+
+<div role="group" aria-label="Dove si trova il candidato" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; background: #E3E8E7; border-radius: 10px; padding: 4px">
+<button type="button" aria-pressed="{{pPerson}}" onClick="{{setPerson}}" style="{{sPerson}}">Di persona</button>
+<button type="button" aria-pressed="{{pRemote}}" onClick="{{setRemote}}" style="{{sRemote}}">A distanza (video)</button>
+</div>
+
+<ol aria-label="Passi" style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px">
+<li style="{{b1}}">Codice</li>
+<li style="{{b2}}">Controllo</li>
+<li style="{{b3}}">Consiglio</li>
+<li style="{{b4}}">Proposta</li>
+</ol>
+
+<sc-if value="{{isScan}}" hint-placeholder-val="{{ true }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px; align-items: center">
+<sc-if value="{{isPerson}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 14px; align-items: center">
+<h2 style="margin: 0; align-self: stretch; font-size: 17px; font-weight: 600">1. Scansiona il codice del candidato</h2>
+<p style="margin: 0; align-self: stretch; font-size: 14px; line-height: 1.5; color: #2E4448">Il candidato lo mostra sul suo telefono, alla fine dell'iscrizione.</p>
+<div role="img" aria-label="Fotocamera per scansionare il codice del candidato (segnaposto)" style="width: 260px; height: 200px; background: #10292E; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #C5D3D4">Fotocamera<br>inquadra il QR del candidato</div>
+</div>
+</sc-if>
+<sc-if value="{{isRemote}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: stretch; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">1. Ricevi il codice del candidato</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2E4448">Il candidato ti invia il link con il suo codice, per messaggio o email. Il codice è pubblico: si può inviare senza rischi.</p>
+<label for="link" style="font-size: 14px; font-weight: 600">Link o codice ricevuto</label>
+<input id="link" type="text" defaultValue="bitcoin-dao.github.io/uno-testnet/#/unisciti/npub1q7…" style="min-height: 48px; padding: 0 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #10292E">
+</div>
+</sc-if>
+<button type="button" onClick="{{goCheck}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">{{scanLabel}}</button>
+</section>
+</sc-if>
+
+<sc-if value="{{isCheck}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">2. Leggete il codice ad alta voce</h2>
+<div style="display: flex; flex-direction: column; gap: 4px; align-items: center; padding: 8px 0">
+<span style="font-size: 15px; font-weight: 600">@giulia</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 600; letter-spacing: 0.08em">7F3K · 29QD</span>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2E4448">{{checkText}}</p>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<button type="button" onClick="{{goVerify}}" style="min-height: 52px; background: #1F6B70; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Coincide</button>
+<button type="button" onClick="{{goScan}}" style="min-height: 52px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">Non coincide</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isVerify}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">3. Verifica del Consiglio</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2E4448">{{verifyText}}</p>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 14px">Firme di verifica</span><span style="font-size: 15px; font-weight: 600">{{sigs}} di {{need}}</span></div>
+<sc-if value="{{notVerified}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{addSig}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">{{sigLabel}}</button>
+</sc-if>
+<sc-if value="{{verified}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="background: #E3F0F0; border-radius: 8px; padding: 12px 14px; font-size: 14px; color: #1F4F53"><strong>{{verifiedLine}}</strong><br>Firme pubbliche, collegate alla proposta. La chiamata non viene registrata.</div>
+<button type="button" onClick="{{goPropose}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Continua</button>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{isPropose}}" hint-placeholder-val="{{ false }}">
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 17px; font-weight: 600">4. La proposta, già compilata</h2>
+<dl style="margin: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px 12px; font-size: 14px">
+<dt style="color: #4A5D61">Tipo</dt><dd style="margin: 0">Nuovo membro</dd>
+<dt style="color: #4A5D61">Candidato</dt><dd style="margin: 0">@giulia</dd>
+<dt style="color: #4A5D61">Presentato da</dt><dd style="margin: 0">@anna (tu)</dd>
+<dt style="color: #4A5D61">Verificato da</dt><dd style="margin: 0">{{verifiedBy}}</dd>
+<dt style="color: #4A5D61">Consensi</dt><dd style="margin: 0">carta, privacy, maggiore età ✓</dd>
+</dl>
+<sc-if value="{{isRemote}}" hint-placeholder-val="{{ false }}">
+<div style="background: #FCEBDD; border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.5; color: #7A3306">Sarà segnata come <strong>verificata a distanza</strong>. Durante la prova i membri a distanza non possono entrare nel Consiglio. Il segno sparisce con una verifica di persona.</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="nota" style="font-size: 14px; font-weight: 600">Come la conosci <span style="font-weight: 400; color: #4A5D61">(facoltativo)</span></label>
+<textarea id="nota" rows="2" defaultValue="Ci conosciamo da anni; vive a Lisbona e segue il progetto dall'inizio." style="padding: 10px 12px; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; line-height: 1.45; color: #10292E"></textarea>
+</div>
+<sc-if value="{{notPublished}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{publish}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Pubblica la proposta</button>
+</sc-if>
+<sc-if value="{{published}}" hint-placeholder-val="{{ false }}">
+<div style="background: #E3F0F0; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px">
+<strong style="font-size: 15px; color: #1F4F53">UNO-0009 pubblicata ✓</strong>
+<span style="font-size: 14px; color: #1F4F53">Il voto dura 7 giorni. Se passa, servono 3 conferme del Consiglio.</span>
+<button type="button" onClick="{{reset}}" style="margin-top: 6px; min-height: 44px; background: transparent; border: 1px solid #1F6B70; border-radius: 8px; color: #1F4F53; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+</main>
+
+<nav aria-label="Sezioni" style="margin-top: auto; background: #FFFFFF; border-top: 1px solid #D5DDDC; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+<a href="Main.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Tesoreria</a>
+<a href="Proposals.dc.html" aria-current="page" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #10292E; text-decoration: none; border-top: 3px solid #B54D0A">Proposte</a>
+<a href="Members.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Membri</a>
+<a href="Rules.dc.html" style="min-height: 56px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #4A5D61; text-decoration: none; border-top: 3px solid transparent">Regole</a>
+</nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+const s = this.state || {};
+const step = s.step || 'scan';
+const remote = s.mode === 'remote';
+const need = remote ? 2 : 1;
+const sigs = s.sigs || 0;
+const ok = sigs >= need;
+const n = { scan: 1, check: 2, verify: 3, propose: 4 }[step];
+const b = (i) => 'padding: 8px 4px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: 600; ' + (i < n ? 'background: #1F6B70; color: #FFFFFF;' : i === n ? 'background: #10292E; color: #FFFFFF;' : 'background: #E3E8E7; color: #4A5D61;');
+const tb = 'min-height: 44px; border: 0; border-radius: 8px; font-family: inherit; font-size: 14px; ';
+const on = tb + 'background: #FFFFFF; color: #10292E; font-weight: 600;';
+const off = tb + 'background: transparent; color: #4A5D61; font-weight: 500;';
+const go = (k) => () => this.setState({ step: k });
+const names = ['@luca', '@sara'];
+return {
+isPerson: !remote, isRemote: remote,
+sPerson: remote ? off : on, sRemote: remote ? on : off,
+pPerson: String(!remote), pRemote: String(remote),
+setPerson: () => this.setState({ mode: 'person', step: 'scan', sigs: 0, published: false }),
+setRemote: () => this.setState({ mode: 'remote', step: 'scan', sigs: 0, published: false }),
+isScan: step === 'scan', isCheck: step === 'check', isVerify: step === 'verify', isPropose: step === 'propose',
+b1: b(1), b2: b(2), b3: b(3), b4: b(4),
+scanLabel: remote ? 'Simula: codice ricevuto' : 'Simula: codice letto',
+checkText: remote ? 'In videochiamata il candidato mostra il telefono alla camera e legge il codice breve. Deve essere identico a questo: se il link fosse stato alterato, il codice sarebbe diverso.' : 'Deve essere identico a quello sul telefono del candidato. Se non coincide, qualcuno sta usando un altro codice: ricomincia.',
+verifyText: remote ? 'A distanza servono 2 membri del Consiglio nella chiamata. Ognuno apre lo stesso link e firma: «verificato a distanza».' : 'Il membro del Consiglio presente scansiona lo stesso codice dal suo telefono e firma: «verificato di persona».',
+need: String(need), sigs: String(Math.min(sigs, need)),
+verified: ok, notVerified: !ok,
+sigLabel: 'Simula: ' + names[Math.min(sigs, 1)] + ' ha firmato',
+addSig: () => this.setState({ sigs: sigs + 1 }),
+verifiedLine: remote ? 'Verificato a distanza da @luca e @sara ✓' : 'Verificato di persona da @luca ✓',
+verifiedBy: remote ? '@luca e @sara, a distanza ✓' : '@luca, di persona ✓',
+published: !!s.published, notPublished: !s.published,
+goScan: go('scan'), goCheck: go('check'), goVerify: go('verify'), goPropose: go('propose'),
+publish: () => this.setState({ published: true }),
+reset: () => this.setState({ step: 'scan', sigs: 0, published: false })
+};
+}
+}
+</script>
+</body>
+</html>

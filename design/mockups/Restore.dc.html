@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>UNO · Rientra con la tessera</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B70}a:hover{color:#10292E}
+</style>
+</helmet>
+<div style="width: 390px; height: 1100px; box-sizing: border-box; background: #F4F6F5; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #10292E; display: flex; flex-direction: column">
+
+<header style="background: #10292E; color: #FFFFFF; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Join.dc.html" style="min-height: 44px; display: flex; align-items: center; color: #FFFFFF; font-size: 14px; font-weight: 600; text-decoration: none">← Accedi</a>
+<span style="font-size: 14px; color: #C5D3D4">Rientra con la tessera</span>
+</header>
+
+<div style="background: #FCEBDD; color: #7A3306; font-size: 12px; padding: 8px 20px">Mock-up · dati di esempio · rete di prova (testnet4)</div>
+
+<main style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{isAddress}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700; line-height: 1.25">Rientra con la tua tessera</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">Telefono nuovo, passkey persa o nuovo indirizzo: la tessera ti riporta dentro con la stessa identità e gli stessi voti.</p>
+
+<section aria-labelledby="indirizzo" style="background: #FFFFFF; border: 2px solid #1F6B70; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<h2 id="indirizzo" style="margin: 0; font-size: 16px; font-weight: 700; color: #1F4F53">Indirizzo verificato ✓</h2>
+<span style="font-size: 14px; line-height: 1.5; color: #2E4448"><strong style="font-family: 'IBM Plex Mono', monospace; font-weight: 600">bitcoin-dao.github.io/uno-testnet</strong> è l'indirizzo di UNO approvato dal Consiglio.</span>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Approvato da @anna, @marco e @luca · 3 di 5 · 1 set 2026</span>
+</section>
+
+<div style="background: #FCEBDD; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #7A3306"><strong>Scansiona la tessera solo su un indirizzo annunciato dal Consiglio.</strong> Nel dubbio, controlla su btcdao.tech o chiedi a un membro del Consiglio.</div>
+
+<button type="button" onClick="{{goScan}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Scansiona la tessera</button>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Senza tessera? Vieni a un incontro: un membro del Consiglio verifica che sei tu e sostituisce la chiave.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{isScan}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: center">
+<h1 style="margin: 0; align-self: stretch; font-size: 24px; font-weight: 700">Inquadra la tessera</h1>
+<div role="img" aria-label="Anteprima della fotocamera con la cornice per la tessera (segnaposto)" style="width: 300px; height: 300px; background: #10292E; border-radius: 12px; display: flex; align-items: center; justify-content: center">
+<div style="width: 180px; height: 180px; border: 3px solid #FFFFFF; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 13px; color: #C5D3D4">Inquadra qui<br>il codice QR</div>
+</div>
+<span style="align-self: stretch; font-size: 14px; line-height: 1.5; color: #2E4448">Tieni la tessera ferma e ben illuminata. Nessuna foto viene salvata.</span>
+<button type="button" onClick="{{scanned}}" style="align-self: stretch; min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Simula: tessera letta</button>
+<button type="button" onClick="{{goAddress}}" style="align-self: stretch; min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Annulla</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isWho}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Sei tu?</h1>
+<section style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 28px; background: #E3F0F0; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700">E</span>
+<strong style="font-size: 22px">{{name}}</strong>
+<span style="font-size: 14px; color: #4A5D61">Membro dal 1 set</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 600; letter-spacing: 0.08em">7F3K · 29QD</span>
+<span style="font-size: 13px; line-height: 1.5; color: #4A5D61">Controlla che il codice breve coincida con quello stampato sulla tessera.</span>
+</section>
+<button type="button" onClick="{{goPasskey}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Sì, sono io</button>
+<button type="button" onClick="{{goAddress}}" style="min-height: 48px; background: #FFFFFF; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 15px; font-weight: 600">No, non sono io</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isPasskey}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700">Crea una nuova passkey</h1>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #2E4448">D'ora in poi entri con impronta o volto, come prima. La nuova passkey protegge la stessa chiave che hai sulla tessera.</p>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #2E4448">La tessera resta il tuo piano di riserva: rimettila al sicuro.</div>
+<button type="button" onClick="{{goDone}}" style="min-height: 52px; background: #B54D0A; color: #FFFFFF; border: 0; border-radius: 8px; font-family: inherit; font-size: 16px; font-weight: 600">Crea con impronta o volto</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="background: #E3F0F0; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px">
+<strong style="font-size: 18px; color: #1F4F53">Bentornato, {{name}} ✓</strong>
+<span style="font-size: 14px; line-height: 1.5; color: #1F4F53">Stessa identità, stessi voti. Nessuna nuova verifica e nessun voto del Consiglio.</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #D5DDDC; border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; color: #2E4448">Hai mostrato la tessera a qualcuno, o l'hai lasciata in giro? Ristampala dal profilo e chiedi al Consiglio di sostituire la chiave.</div>
+<a href="Proposals.dc.html" style="min-height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Vai alle proposte →</a>
+<button type="button" onClick="{{goAddress}}" style="min-height: 44px; background: transparent; color: #10292E; border: 1px solid #9AAAAD; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600">Ricomincia la demo</button>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+const step = (this.state && this.state.step) || 'address';
+const go = (k) => () => this.setState({ step: k });
+return {
+isAddress: step === 'address', isScan: step === 'scan', isWho: step === 'who',
+isPasskey: step === 'passkey', isDone: step === 'done',
+name: '@elena',
+scanned: go('who'),
+goAddress: go('address'), goScan: go('scan'), goPasskey: go('passkey'), goDone: go('done')
+};
+}
+}
+</script>
+</body>
+</html>
