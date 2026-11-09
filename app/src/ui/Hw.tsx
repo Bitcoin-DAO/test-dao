@@ -4,7 +4,7 @@ import { useApp } from '../app';
 import { t } from '../i18n';
 import { startScanner, type Scanner } from '../lib/qr';
 import { UrDecoder, type UrEncoder } from '../core/ur';
-import { psbtEncoder, readKeyExport, readPsbt, type HwKey } from '../core/hwkeys';
+import { mergeSignatures, psbtEncoder, readKeyExport, readPsbt, type HwKey } from '../core/hwkeys';
 import { buildDescriptor, parseDescriptor, treasuryAddress, withChecksum } from '../core/descriptor';
 import { buildRound, inspectRound, memberSignatures } from '../core/round';
 import { sha256Hex } from '../core/util';
@@ -152,7 +152,7 @@ export function QrTest() {
     setMsg(undefined);
     try {
       if ('text' in v) throw new Error(t('hw.notPsbt'));
-      const psbt = readPsbt(v);
+      const psbt = mergeSignatures(test!.psbt, readPsbt(v));
       const ins = inspectRound(psbt, test!.d, network);
       const names = keys.filter(k => memberSignatures(psbt, test!.d, network, k, ins).size > 0).map(k => cardName(k.fingerprint) ?? k.fingerprint);
       setSigned({ names, errors: ins.errors });

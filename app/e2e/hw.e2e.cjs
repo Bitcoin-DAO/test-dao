@@ -50,7 +50,11 @@ const device = fs.readFileSync(__dirname + '/../src/core/fixtures/seedsigner-0.8
   const master = HDKey.fromMasterSeed(mnemonicToSeedSync(CARD_A_WORDS), { private: 0x04358394, public: 0x043587cf });
   const tx = Transaction.fromPSBT(Buffer.from(psbtB64, 'base64'));
   for (let i = 0; i < tx.inputsLength; i++) tx.signIdx(master, i, [0x01]);
-  const signed = Buffer.from(tx.toPSBT(0));
+  // Trimmed as a SeedSigner returns it: the bare transaction and the signatures only.
+  const trimmed = new Transaction({ allowUnknownOutputs: true });
+  for (let i = 0; i < tx.outputsLength; i++) { const o = tx.getOutput(i); trimmed.addOutput({ script: o.script, amount: o.amount }); }
+  for (let i = 0; i < tx.inputsLength; i++) { const x = tx.getInput(i); trimmed.addInput({ txid: x.txid, index: x.index, sequence: x.sequence, partialSig: x.partialSig }); }
+  const signed = Buffer.from(trimmed.toPSBT(0));
   const cborBytes = Buffer.concat([Buffer.from([0x59, signed.length >> 8, signed.length & 255]), signed]);
   const enc = new UREncoder(new UR(cborBytes, 'crypto-psbt'), 100, 0, 10);
   const parts = Array.from({ length: enc.fragmentsLength + 8 }, () => enc.nextPart()).slice(2); // a couple missed, as a camera would

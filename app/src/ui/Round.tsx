@@ -6,6 +6,7 @@ import { fmtSats, t } from '../i18n';
 import { KIND } from '../core/events';
 import { explorerOf, feePolicyOf, pushPageOf, sourceLabel, suggestFee, txSeenBy, txStatus, type Broadcast, type TxStatus } from '../core/chain';
 import { parseDescriptor } from '../core/descriptor';
+import { mergeSignatures } from '../core/hwkeys';
 import { buildRound, finalizeRound, masterFromSeed, memberSignatures, signWithMnemonicKey, type BuiltRound } from '../core/round';
 import { cadenceOf, roundLabel } from '../core/time';
 import { proposalLabel, type Output, type RoundView } from '../core/state';
@@ -194,7 +195,13 @@ export function RoundDetail({ id }: { id: string }) {
   };
   const signTest = () => run(() => signAndPublish(KIND.sign, { psbt: signWithMnemonicKey(r.content.psbt, masterFromSeed(mnemonicToSeedSync(tk!.mnemonic), cfg.network)) }, [['e', r.event.id]]));
   const useExternal = () => run(async () => {
-    const psbt = pasted.trim();
+    // A SeedSigner sends back a trimmed PSBT: its signatures go back into the round's own PSBT.
+    let psbt: string;
+    try {
+      psbt = mergeSignatures(r.content.psbt, pasted.trim());
+    } catch {
+      throw new Error(t('rd.badSigned'));
+    }
     const sigs = memberSignatures(psbt, parseDescriptor(settings.descriptor, cfg.network), cfg.network, myEntry!, ins!);
     if (!sigs.size) throw new Error(t('rd.badSigned'));
     await signAndPublish(KIND.sign, { psbt }, [['e', r.event.id]]);

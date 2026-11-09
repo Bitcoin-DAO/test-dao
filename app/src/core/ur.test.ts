@@ -89,3 +89,38 @@ describe('PSBT exchange', () => {
     expect(readPsbt({ type: d.type!, cbor: d.result! })).toBe(psbt);
   });
 });
+
+describe('a trimmed signed PSBT, as a SeedSigner returns it', () => {
+  it('gives its signatures back to the PSBT the app sent; another transaction is refused', async () => {
+    const { Transaction } = await import('@scure/btc-signer');
+    const { base64 } = await import('@scure/base');
+    const { mnemonicToSeedSync } = await import('@scure/bip39');
+    const { treasuryKeyFromMnemonic } = await import('./identity');
+    const { buildDescriptor, parseDescriptor, treasuryAddress } = await import('./descriptor');
+    const { buildRound, inspectRound, masterFromSeed, memberSignatures, signWithMnemonicKey } = await import('./round');
+    const { mergeSignatures } = await import('./hwkeys');
+    const M = [
+      'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about',
+      'legal winner thank year wave sausage worth useful legal winner thank yellow',
+      'letter advice cage absurd amount doctor acoustic avoid letter advice cage above',
+    ];
+    const keys = M.map(m => treasuryKeyFromMnemonic(m, 'testnet4'));
+    const d = parseDescriptor(buildDescriptor(2, keys, 'testnet4'), 'testnet4');
+    const coin = treasuryAddress(d, 'testnet4', 0, 0);
+    const mk = (value: number) => buildRound({ d, network: 'testnet4', feeRate: 2, changeIndex: 0, outputs: [{ address: 'tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx', amount_sat: 10_000 }], utxos: [{ txid: 'ab'.repeat(32), vout: 0, value, address: coin.address, branch: 0, index: 0 }] }).psbt;
+    const sent = mk(100_000);
+    const signed = Transaction.fromPSBT(base64.decode(signWithMnemonicKey(sent, masterFromSeed(mnemonicToSeedSync(M[1]), 'testnet4'))));
+    // Trim it as the device does: the bare transaction and the signatures only.
+    const trimmed = new Transaction({ allowUnknownOutputs: true });
+    for (let i = 0; i < signed.outputsLength; i++) { const o = signed.getOutput(i); trimmed.addOutput({ script: o.script!, amount: o.amount! }); }
+    for (let i = 0; i < signed.inputsLength; i++) { const x = signed.getInput(i); trimmed.addInput({ txid: x.txid!, index: x.index!, sequence: x.sequence, partialSig: x.partialSig }); }
+    const back = base64.encode(trimmed.toPSBT(0));
+    expect(inspectRound(back, d, 'testnet4').errors.length).toBeGreaterThan(0); // unusable as it comes back
+    const merged = mergeSignatures(sent, back);
+    const ins = inspectRound(merged, d, 'testnet4');
+    expect(ins.errors).toEqual([]);
+    expect(memberSignatures(merged, d, 'testnet4', keys[1], ins).size).toBe(1);
+    expect(memberSignatures(merged, d, 'testnet4', keys[0], ins).size).toBe(0);
+    expect(() => mergeSignatures(mk(90_000), back)).toThrow(/not the one sent/);
+  });
+});

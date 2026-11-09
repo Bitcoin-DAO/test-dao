@@ -3,6 +3,8 @@
 // ("[fingerprint/48h/1h/0h/2h]tpub…"); PSBTs travel as UR crypto-psbt.
 import { HDKey } from '@scure/bip32';
 import { base64 } from '@scure/base';
+import { Transaction } from '@scure/btc-signer';
+import { txidOf } from './round';
 import { BIP48_PATH, type Network } from './config';
 import { VERSIONS, parseKeyOrigin, type TreasuryKey } from './descriptor';
 import { cborDecode, cborEncode, UrEncoder, type Cbor } from './ur';
@@ -94,4 +96,24 @@ export function readPsbt(input: { type: string; cbor: Uint8Array }): string {
   if (!(v instanceof Uint8Array)) throw new Error('hwkey: not a PSBT');
   if (bytesToHex(v.slice(0, 5)) !== '70736274ff') throw new Error('hwkey: not a PSBT');
   return base64.encode(v);
+}
+
+/**
+ * A SeedSigner returns a trimmed signed PSBT: the transaction and its signatures, without the input
+ * details (witness_utxo, witness_script, key paths) the app put in. Put its signatures back into the
+ * PSBT the app sent, after checking both are the same transaction.
+ */
+export function mergeSignatures(sentB64: string, returnedB64: string): string {
+  const sent = Transaction.fromPSBT(base64.decode(sentB64));
+  const back = Transaction.fromPSBT(base64.decode(returnedB64));
+  if (txidOf(sent) !== txidOf(back) || sent.inputsLength !== back.inputsLength) throw new Error('hwkey: the signed transaction is not the one sent to the device');
+  for (let i = 0; i < back.inputsLength; i++) {
+    const sigs = back.getInput(i).partialSig;
+    if (!sigs?.length) continue;
+    const have = sent.getInput(i).partialSig ?? [];
+    const merged = [...have];
+    for (const [pk, sig] of sigs) if (!merged.some(([k]) => bytesToHex(k) === bytesToHex(pk))) merged.push([pk, sig]);
+    sent.updateInput(i, { partialSig: merged }, true);
+  }
+  return base64.encode(sent.toPSBT(0));
 }
