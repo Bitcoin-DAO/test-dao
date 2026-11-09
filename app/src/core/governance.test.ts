@@ -615,11 +615,14 @@ describe('discussion (4.5)', () => {
   it('withdrawn drafts stay visible, closed to new versions', () => {
     const d = dao();
     const v1 = d.ev(KIND.draft, v(1), d.f[0], d.T);
+    d.ev(KIND.post, { text: 'prima' }, d.f[1], d.T + 5, [['e', v1.id]]);
     d.ev(KIND.withdraw, {}, d.f[0], d.T + 10, [['e', v1.id]]);
     d.ev(KIND.draft, v(2), d.f[0], d.T + 20, [['e', v1.id]]);
-    const s = d.state(d.T + 30);
+    d.ev(KIND.post, { text: 'dopo' }, d.f[1], d.T + 30, [['e', v1.id]]);
+    const s = d.state(d.T + 40);
     const th = s.discussion.byId.get(v1.id)!;
     expect(th.status).toBe('withdrawn');
     expect(th.versions.length).toBe(1);
+    expect(th.posts.map(p => parseJson<any>(p.content).text)).toEqual(['prima']); // closed to new posts
   });
 });

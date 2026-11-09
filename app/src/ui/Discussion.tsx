@@ -284,7 +284,7 @@ export function ThreadView({ id }: { id: string }) {
           ))}
         </div>
 
-        {isMember && !s.closed ? (
+        {th.status === 'withdrawn' ? <p class="small">{t('ds.closedToPosts')}</p> : isMember && !s.closed ? (
           <div class="stack">
             <label class="field">
               {t('ds.reply')}

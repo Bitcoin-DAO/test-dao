@@ -172,6 +172,8 @@ export function buildDiscussion({ events, proposals, memberAt, personOf, rejecte
     if (!th) { reject(e, 'post: no such thread'); continue; }
     if (!c || !isStr(c.text, POST_MAX)) { reject(e, 'post: malformed'); continue; }
     if (!memberAt(e.pubkey, e.created_at)) { reject(e, 'post: signer is not a member'); continue; }
+    // A withdrawn draft is closed: what was said stays, nothing new is added.
+    if (th.withdrawn && e.created_at > th.withdrawn.created_at) { reject(e, 'post: the draft is withdrawn'); continue; }
     th.posts.push(e);
     th.lastActivity = Math.max(th.lastActivity, e.created_at);
   }

@@ -2,6 +2,12 @@
 
 Each release is a git tag (`v0.1.1`). A DAO's copy runs one tagged release and records it in its README; a release moves to a DAO's next stage only after passing the one before ([guide, section 8](docs/guide.md#8-the-three-stages-practice-testnet-mainnet)).
 
+## v0.3.1 · 9 November 2026
+
+Found trying Discussion on TEST DAO.
+
+- **A withdrawn draft is closed to new posts.** Its thread stays readable, with a line saying it is closed; posts dated after the withdrawal are ignored by every phone (protocol 4.5.3).
+
 ## v0.3.0 · 9 November 2026
 
 The issues carried over from UNO's two runs (`docs/runs/`), and **Discussion**. Hardware keys move to v0.4.0 (`NEXT-RELEASE.md`).

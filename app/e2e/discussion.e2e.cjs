@@ -163,6 +163,7 @@ async function councilAction(page, buttonName) {
   await a.getByRole('button', { name: 'Ritira la bozza' }).click();
   await a.locator('.dialog').getByRole('button', { name: 'Ritira la bozza' }).click();
   check(await seen(a.getByText(/Ritirata dall'autore/)), 'withdrawn draft says so');
+  check(await seen(a.getByText('La bozza è ritirata: la discussione è chiusa e resta leggibile.')) && !(await a.getByLabel('Il tuo messaggio').count()), 'a withdrawn draft takes no new posts');
   await open(a, '#/discussion');
   check(await seen(a.getByText('Ritirata', { exact: true })), 'withdrawn draft stays in the list');
 
