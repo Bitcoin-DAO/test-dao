@@ -2,6 +2,34 @@
 
 Each release is a git tag (`v0.1.1`). A DAO's copy runs one tagged release and records it in its README; a release moves to a DAO's next stage only after passing the one before ([guide, section 8](docs/guide.md#8-the-three-stages-practice-testnet-mainnet)).
 
+## v0.4.0 · 10 November 2026
+
+**SeedSigner founding and signing**: the mainnet flow, with every treasury key on a SeedSigner and none on a phone. Tested on a real SeedSigner (firmware 0.8.6) and passed in the wild on SEEDSIGNER DAO, from founding to closing (`docs/runs/2026-11-seedsigner-dao.md`). Formats recorded in `docs/seedsigner.md`.
+
+**QR exchange with the SeedSigner**
+- **Animated QRs** in UR format (the Sparrow standard), written for the app and matched part for part to the reference library; the phone's scanner collects the parts in any order and shows its progress.
+- **Key export** read at sign-up (UR `crypto-account`), checked for network and path; a device left on the wrong network is told how to switch.
+- **QR test page** (`#/qrtest`): scan keys, show a test wallet and transaction, scan the signed transaction back and see whose signature it carries. Nothing is published.
+
+**Founding with SeedSigner keys**
+- At council sign-up the treasury key goes **on a SeedSigner** (the default, and the only choice on mainnet) or, on testnet4, on the phone for practice. A SeedSigner key is scanned; there is no phone key and no 12-word step.
+- The founding record notes which council keys are on SeedSigners. The setup page shows where each key lives, warns about a mixed council, and refuses a treasury key already on the council (one SeedSigner, several cards).
+- The profile says where the key lives and keeps the lost-key report.
+
+**Signing a round with a SeedSigner**
+- Three steps on the round page: load the treasury wallet (descriptor QR; the device then verifies the change, S7), show the transaction (animated QR; check every address on the device, S1), scan the signed transaction back.
+- The SeedSigner returns a trimmed transaction; the app puts its signatures back into the round's transaction, checks they are this member's, and publishes them. A wrong card is refused, naming the key needed.
+- "Not enough funds" shows as soon as the prepare page opens, with the amount missing; the Council page offers no round meanwhile.
+
+**Found in the run, fixed**
+- **Receipts and forks:** a receipt was issued from mixed sources (one source's block, another's chain tip). Now each source's depth is measured against its own tip, the shallowest counts, and no receipt is issued while sources place the payment in different blocks; the round page says so.
+- **Repeated votes:** tapping the current choice again publishes nothing; the record marks replaced votes as not counted.
+- **QR codes** shrink to fit narrow phones.
+
+**Tests**
+- Unit: UR against the reference library and the real device's export; key reading; merging a trimmed signed PSBT; depth per source.
+- End-to-end: the QR test page, and a SeedSigner DAO founded, funded, paid (cards A and B, a wrong card refused) and checked with embit.
+
 ## v0.3.1 · 9 November 2026
 
 Found trying Discussion on TEST DAO.
