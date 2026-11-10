@@ -18,6 +18,7 @@ export const go = (path: string) => {
 export function errText(e: unknown): string {
   const msg = String((e as Error)?.message ?? e);
   if ((e as Error)?.name === 'NotAllowedError' || msg === 'passkey-cancelled') return t('error.cancelled');
+  if (msg === 'hw-net-mainnet' || msg === 'hw-net-testnet' || msg === 'hw-path') return t(`error.${msg}` as 'error.hw-path');
   return t('error.generic', { msg });
 }
 

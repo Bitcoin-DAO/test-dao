@@ -72,7 +72,19 @@ describe('a real SeedSigner (0.8.6) key export, card A', () => {
   it('refuses it for a mainnet DAO', () => {
     const d = new UrDecoder();
     for (const p of device) { d.receive(p); if (d.result) break; }
-    expect(() => readKeyExport({ type: d.type!, cbor: d.result! }, 'mainnet')).toThrow(/testnet4 key, but this DAO is on mainnet/);
+    expect(() => readKeyExport({ type: d.type!, cbor: d.result! }, 'mainnet')).toThrow('hw-net-testnet');
+  });
+
+  it('a key exported while the SeedSigner was set to Mainnet is refused for a testnet DAO, with what to change', async () => {
+    const { HDKey } = await import('@scure/bip32');
+    const { mnemonicToSeedSync } = await import('@scure/bip39');
+    const { cborEncode } = await import('./ur');
+    const acct = HDKey.fromMasterSeed(mnemonicToSeedSync('abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about')).derive("m/48'/0'/0'/2'");
+    // crypto-account as SeedSigner 0.8.6 exports it on Mainnet: path 48'/0'/0'/2', no network stated.
+    const hd = new Map<number, any>([[3, acct.publicKey!], [4, acct.chainCode!], [6, { tag: 304, value: new Map<number, any>([[1, [48, 1, 0, 1, 0, 1, 2, 1]], [2, 0x73c5da0a]]) }], [8, acct.parentFingerprint]]);
+    const account = new Map<number, any>([[1, 0x73c5da0a], [2, [{ tag: 401, value: { tag: 303, value: hd } }]]]);
+    expect(() => readKeyExport({ type: 'crypto-account', cbor: cborEncode(account) }, 'testnet4')).toThrow('hw-net-mainnet');
+    expect(readKeyExport({ type: 'crypto-account', cbor: cborEncode(account) }, 'mainnet')).toMatchObject({ fingerprint: '73c5da0a', path: '48h/0h/0h/2h' });
   });
 
   it('accepts the same key typed as key-origin text', () => {

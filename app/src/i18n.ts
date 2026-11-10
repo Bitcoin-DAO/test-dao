@@ -30,6 +30,9 @@ const it = {
   'rd.coinsError': 'Non riesco a leggere le monete della tesoreria ({msg}). Il giro si prepara solo con una lettura aggiornata.',
   'error.load': 'Non riesco a caricare la DAO: {msg}',
   'error.generic': 'Qualcosa non ha funzionato: {msg}',
+  'error.hw-net-mainnet': 'Questa chiave è per la rete principale (Mainnet), ma questa DAO è su testnet4. Sul SeedSigner: Settings → Advanced → Bitcoin network → Testnet, poi esporta di nuovo la chiave. (Il SeedSigner torna a Mainnet a ogni accensione, se le impostazioni non sono salvate.)',
+  'error.hw-net-testnet': 'Questa chiave è per la rete di prova, ma questa DAO è sulla rete principale. Sul SeedSigner: Settings → Advanced → Bitcoin network → Mainnet, poi esporta di nuovo la chiave.',
+  'error.hw-path': 'Questa non è una chiave multisig. Sul SeedSigner: Export Xpub → Multisig → Native Segwit → Sparrow.',
   'error.cancelled': 'Operazione annullata.',
   'error.noPasskeys': 'Questo browser non supporta le passkey. Prova con Chrome su Android o Safari su iPhone.',
 
@@ -755,6 +758,9 @@ const en: Record<Key, string> = {
   'rd.coinsError': "Cannot read the treasury's coins ({msg}). A round is prepared only from a live reading.",
   'error.load': 'Could not load the DAO: {msg}',
   'error.generic': 'Something went wrong: {msg}',
+  'error.hw-net-mainnet': 'This key is for the main network (Mainnet), but this DAO is on testnet4. On the SeedSigner: Settings → Advanced → Bitcoin network → Testnet, then export the key again. (The SeedSigner goes back to Mainnet each time it starts, unless its settings are saved.)',
+  'error.hw-net-testnet': 'This key is for the test network, but this DAO is on mainnet. On the SeedSigner: Settings → Advanced → Bitcoin network → Mainnet, then export the key again.',
+  'error.hw-path': 'This is not a multisig key. On the SeedSigner: Export Xpub → Multisig → Native Segwit → Sparrow.',
   'error.cancelled': 'Cancelled.',
   'error.noPasskeys': 'This browser does not support passkeys. Try Chrome on Android or Safari on iPhone.',
 

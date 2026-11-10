@@ -81,8 +81,12 @@ export function readKeyExport(input: { type: string; cbor: Uint8Array } | string
     fingerprint = found.fingerprint;
   } else throw new Error(`hwkey: a ${input.type} is not a key export`);
   if (!fingerprint) throw new Error('hwkey: the export has no master fingerprint');
-  if (found.network !== network) throw new Error(`hwkey: a ${found.network} key, but this DAO is on ${network} (SeedSigner: Settings → Advanced → Network)`);
-  if (found.path !== BIP48_PATH(network)) throw new Error(`hwkey: path ${found.path}, expected ${BIP48_PATH(network)} (choose Multisig → Native Segwit)`);
+  // The coin in the path tells the device's network (48h/0h… mainnet, 48h/1h… testnet), also when the
+  // export does not state it (SeedSigner 0.8.6 on Mainnet leaves it out).
+  const coin = found.path.split('/')[1];
+  const pathNet: Network | undefined = coin === '0h' ? 'mainnet' : coin === '1h' ? 'testnet4' : undefined;
+  if (found.network !== network || (pathNet && pathNet !== network)) throw new Error(network === 'mainnet' ? 'hw-net-testnet' : 'hw-net-mainnet');
+  if (found.path !== BIP48_PATH(network)) throw new Error('hw-path');
   return { fingerprint, xpub: found.xpub, path: found.path, network };
 }
 
