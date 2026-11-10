@@ -3,6 +3,8 @@ import { useEffect, useState } from 'preact/hooks';
 import { passkeyName, publishSigned, setState, sync, useApp } from '../app';
 import { t } from '../i18n';
 import { newSecret, newTestTreasuryKey, pubkeyOf, type FounderCode } from '../core/identity';
+import { readKeyExport, type HwKey } from '../core/hwkeys';
+import { UrScanModal, type Scanned } from './Hw';
 import { KIND, sign, template } from '../core/events';
 import type { GenesisCandidate } from '../core/state';
 import { shortCode, formatShortCode } from '../core/shortcode';
@@ -50,7 +52,8 @@ export function Founder() {
     v: 1,
     name: pending.name,
     key: pending.pubkey,
-    ...(pending.council && pending.treasury ? { council: { fingerprint: pending.treasury.fingerprint, xpub: pending.treasury.xpub } } : {}),
+    ...(pending.council && pending.hwKey ? { council: { ...pending.hwKey, device: 'seedsigner' as const } }
+      : pending.council && pending.treasury ? { council: { fingerprint: pending.treasury.fingerprint, xpub: pending.treasury.xpub } } : {}),
   };
   const text = JSON.stringify(code);
   return (
@@ -136,6 +139,20 @@ function SignUp() {
   const [name, setName] = useState('');
   const [council, setCouncil] = useState(false);
   const [adult, setAdult] = useState(false);
+  // Mainnet: SeedSigner only. Testnet4: SeedSigner, or a key on this phone for practice.
+  const [keyOn, setKeyOn] = useState<'seedsigner' | 'phone'>('seedsigner');
+  const [hwKey, setHwKey] = useState<HwKey>();
+  const [scanning, setScanning] = useState(false);
+  const useDevice = site.network === 'mainnet' || keyOn === 'seedsigner';
+  const onScanned = (v: Scanned) => {
+    setScanning(false);
+    setErr(undefined);
+    try {
+      setHwKey(readKeyExport('text' in v ? v.text : v, site.network));
+    } catch (e) {
+      setErr(errText(e));
+    }
+  };
   const [err, setErr] = useState<string>();
   const [busy, setBusy] = useState(false);
   const dao = site.name;
@@ -160,7 +177,8 @@ function SignUp() {
         credId,
         prfSupported,
         council,
-        treasury: council ? newTestTreasuryKey(site.network) : undefined,
+        treasury: council && !useDevice ? newTestTreasuryKey(site.network) : undefined,
+        hwKey: council && useDevice ? { fingerprint: hwKey!.fingerprint, xpub: hwKey!.xpub } : undefined,
         createdAt: Math.floor(Date.now() / 1000),
       };
       await store.setPending(p);
@@ -198,17 +216,34 @@ function SignUp() {
             <div class="warnbox"><strong>{t('fs.keyWarnTitle')}</strong> {t('fs.keyWarn', { dao })}</div>
             {council && (
               <div class="card">
-                <h3>{t('fs.councilKey')}</h3>
-                <p class="small">{t('fs.councilKeyText')}</p>
+                <h3>{t('fs.councilKeyHw')}</h3>
+                {site.network !== 'mainnet' && (
+                  <div class="stack" style="gap:6px">
+                    <label class="check"><input type="radio" name="keyOn" checked={keyOn === 'seedsigner'} onChange={() => setKeyOn('seedsigner')} />{t('fs.keyOnDevice')}</label>
+                    <label class="check"><input type="radio" name="keyOn" checked={keyOn === 'phone'} onChange={() => setKeyOn('phone')} />{t('fs.keyOnPhone')}</label>
+                  </div>
+                )}
+                {useDevice ? (
+                  <>
+                    <p class="small">{t('fs.deviceText', { coin: site.network === 'mainnet' ? 'Mainnet' : 'Testnet' })}</p>
+                    {hwKey ? (
+                      <div class="kv"><span>{t('fs.deviceKey')}</span><span class="mono ok">{hwKey.fingerprint} · {hwKey.path} ✓</span></div>
+                    ) : null}
+                    <button type="button" class={hwKey ? 'btn link' : 'btn secondary'} onClick={() => setScanning(true)}>{hwKey ? t('fs.deviceRescan') : t('fs.deviceScan')}</button>
+                  </>
+                ) : (
+                  <p class="small">{t('fs.councilKeyText')}</p>
+                )}
               </div>
             )}
             {!passkeysAvailable() && <p class="warnbox">{t('error.noPasskeys')}</p>}
-            <button type="button" class="btn primary" disabled={busy} onClick={create}>{t('fs.create')}</button>
+            <button type="button" class="btn primary" disabled={busy || (council && useDevice && !hwKey)} onClick={create}>{t('fs.create')}</button>
             {err && <p class="warnbox">{err}</p>}
             <button type="button" class="btn link" onClick={() => setStep(1)}>{t('back')}</button>
           </>
         )}
       </main>
+      {scanning && <UrScanModal title={t('fs.deviceScan')} plainOk onResult={onScanned} onCancel={() => setScanning(false)} />}
     </>
   );
 }

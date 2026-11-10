@@ -18,6 +18,8 @@ export interface PendingFounder {
   treasury?: TestTreasuryKey;
   /** When the council member showed the trial treasury key's 12 words were written down (typed some back). */
   wordsChecked?: number;
+  /** A council key scanned from a SeedSigner: only its public side; the phone never holds the key. */
+  hwKey?: { fingerprint: string; xpub: string };
   createdAt: number;
 }
 
@@ -44,6 +46,7 @@ export interface SetupCouncil {
   key: string;
   fingerprint: string;
   xpub: string;
+  device?: 'seedsigner';
 }
 
 export interface SetupState {

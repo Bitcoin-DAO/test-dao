@@ -64,6 +64,9 @@ export function Profile() {
   }
   const tk = app.identity?.treasury;
   const s = app.dao;
+  const myCouncilEntry = s?.settingsAt(s.now).content.council.find(c => s.personOf(c.identityKey) === me.person);
+  const myDevice = myCouncilEntry?.device;
+  const myFingerprint = myCouncilEntry?.fingerprint;
   const network = app.site!.network;
   const standing = s?.standingAt(me.key, s.now);
   // Someone who has left keeps their name and record, but nothing a member does.
@@ -89,39 +92,24 @@ export function Profile() {
           </div>
         )}
         {!former && (app.secret ? <PrintCard council={me.council} /> : <p class="note">{t('profile.locked')}</p>)}
-        {me.council && !tk && network !== 'mainnet' && (
+        {me.council && !tk && myDevice === 'seedsigner' && (
+          <div class="card" id="treasury-key">
+            <h3>{t('fs.councilKeyHw')}</h3>
+            <p class="small">{t('hw.profileText', { fp: myFingerprint ?? '' })}</p>
+            <details>
+              <summary class="small">{t('hw.lostQ')}</summary>
+              {s && <LostKey me={me} />}
+            </details>
+          </div>
+        )}
+        {me.council && !tk && myDevice !== 'seedsigner' && network !== 'mainnet' && (
           <div class="card" id="treasury-key">
             <h3>{t('profile.treasuryKey')}</h3>
             <p class="warn">{t('tk.missing')}</p>
             <label class="field">{t('tk.enter')}<textarea class="mono" autoComplete="off" spellcheck={false} autoCapitalize="none" value={tkWords} onInput={e => setTkWords((e.target as HTMLTextAreaElement).value)} /></label>
             <button type="button" class="btn primary" disabled={busy || tkWords.trim().split(/\s+/).length !== 12} onClick={enterWords}>{t('tk.save')}</button>
             {tkMsg && <p class="warnbox">{tkMsg}</p>}
-            {s && (() => {
-              // Words lost too: say what that means for the treasury, and what fixes it.
-              const set = s.settingsAt(s.now).content;
-              const others = set.council.length - 1 - s.lostKeys.filter(k => k.person !== me.person).length;
-              const mine = set.council.find(c => s.personOf(c.identityKey) === me.person);
-              const reported = s.lostKeys.some(k => k.person === me.person);
-              const report = async () => {
-                setTkMsg(undefined);
-                setBusy(true);
-                try {
-                  await signAndPublish(KIND.keystatus, { fingerprint: mine!.fingerprint.toLowerCase(), state: 'lost' });
-                } catch (e) {
-                  setTkMsg(errText(e));
-                } finally {
-                  setBusy(false);
-                }
-              };
-              return (
-                <>
-                  <p class="small">{t(others >= set.threshold ? 'tk.lostOk' : 'tk.lostLocked', { m: set.threshold, n: set.council.length, others })}</p>
-                  {mine && (reported ? <p class="ok">{t('tk.reported')}</p> : (
-                    <button type="button" class="btn secondary" disabled={busy} onClick={report}>{t('tk.report')}</button>
-                  ))}
-                </>
-              );
-            })()}
+            {s && <LostKey me={me} />}
           </div>
         )}
         {me.council && tk && !app.identity?.wordsChecked && <WordsCheck mnemonic={tk.mnemonic} onDone={markWordsChecked} />}
@@ -174,6 +162,37 @@ export function Profile() {
         )}
       </main>
       <Footer />
+    </>
+  );
+}
+
+/** Report one's own treasury key lost: what that means for the treasury now, and the button. */
+function LostKey({ me }: { me: { person: string } }) {
+  const s = useApp().dao!;
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string>();
+  const set = s.settingsAt(s.now).content;
+  const others = set.council.length - 1 - s.lostKeys.filter(k => k.person !== me.person).length;
+  const mine = set.council.find(c => s.personOf(c.identityKey) === me.person);
+  const reported = s.lostKeys.some(k => k.person === me.person);
+  const report = async () => {
+    setMsg(undefined);
+    setBusy(true);
+    try {
+      await signAndPublish(KIND.keystatus, { fingerprint: mine!.fingerprint.toLowerCase(), state: 'lost' });
+    } catch (e) {
+      setMsg(errText(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <>
+      <p class="small">{t(others >= set.threshold ? 'tk.lostOk' : 'tk.lostLocked', { m: set.threshold, n: set.council.length, others })}</p>
+      {mine && (reported ? <p class="ok">{t('tk.reported')}</p> : (
+        <button type="button" class="btn secondary" disabled={busy} onClick={report}>{t('tk.report')}</button>
+      ))}
+      {msg && <p class="warnbox">{msg}</p>}
     </>
   );
 }

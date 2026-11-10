@@ -275,6 +275,7 @@ export function RoundDetail({ id }: { id: string }) {
               <>
                 {tk && !app.identity?.wordsChecked ? <p class="warn">{t('words.needed')} <a href="#/profile">{t('words.toProfile')}</a></p>
                   : tk ? <button type="button" class="btn primary" disabled={busy} onClick={signTest}>{t('rd.signTest')}</button>
+                  : myEntry.device === 'seedsigner' ? <p class="small">{t('rd.hwSoon')}</p>
                   : <p class="small">{t('rd.noKey')} <a href="#/profile">{t('tk.link')}</a></p>}
                 <button type="button" class="btn link" style="align-self:flex-start" onClick={() => setExt(!ext)}>{t('rd.external')}</button>
                 {ext && (

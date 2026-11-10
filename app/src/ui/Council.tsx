@@ -127,12 +127,13 @@ export function Council() {
     setDone(undefined);
   };
 
+  const myDevice = app.me ? s.settingsAt(s.now).content.council.find(c => s.personOf(c.identityKey) === app.me!.person)?.device : undefined;
   return (
     <>
       <Header />
       <main>
         <h1>{t('cn.title')}</h1>
-        {app.identity && !app.identity.treasury && app.site!.network !== 'mainnet' && (
+        {app.identity && !app.identity.treasury && app.site!.network !== 'mainnet' && myDevice !== 'seedsigner' && (
           <p class="warnbox">{t('tk.missing')} <a href="#/profile">{t('tk.link')}</a></p>
         )}
         {app.identity?.treasury && !app.identity.wordsChecked && app.site!.network !== 'mainnet' && (

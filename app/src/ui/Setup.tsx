@@ -33,12 +33,13 @@ export function Setup() {
   useEffect(() => {
     store.getSetup(site.site).then(saved => {
       if (saved) return setS(settleThreshold(saved));
-      if (!me?.council || !me.treasury) return;
+      const myKey = me?.hwKey ?? me?.treasury;
+      if (!me?.council || !myKey) return;
       setS(settleThreshold({
         site: site.site,
         name: site.name,
         description: site.description,
-        council: [{ name: me.name, key: me.pubkey, fingerprint: me.treasury.fingerprint, xpub: me.treasury.xpub }],
+        council: [{ name: me.name, key: me.pubkey, fingerprint: myKey.fingerprint, xpub: myKey.xpub, ...(me.hwKey ? { device: 'seedsigner' as const } : {}) }],
         founders: [],
         threshold: site.threshold,
       }));
@@ -85,6 +86,9 @@ export function Setup() {
     setMsg(undefined);
     if (allKeys.has(code.key)) return setMsg(t('scan.duplicate'));
     if (scan === 'council' && !code.council) return setMsg(t('scan.notCouncilCode'));
+    // One SeedSigner may load several cards, but one card must not give two council seats.
+    if (scan === 'council' && s.council.some(c => c.fingerprint === code.council!.fingerprint || c.xpub === code.council!.xpub)) return setMsg(t('setup.dupTreasuryKey', { fp: code.council!.fingerprint }));
+    if (scan === 'council' && site.network === 'mainnet' && code.council!.device !== 'seedsigner') return setMsg(t('setup.mainnetDevice'));
     setRemote(false);
     setConfirming({ ...code, ...(scan === 'founder' ? { council: undefined } : {}) });
   };
@@ -92,7 +96,7 @@ export function Setup() {
   const accept = () => {
     const c = confirming!;
     setConfirming(undefined);
-    if (c.council) save({ ...s, council: [...s.council, { name: c.name, key: c.key, fingerprint: c.council.fingerprint, xpub: c.council.xpub }] });
+    if (c.council) save({ ...s, council: [...s.council, { name: c.name, key: c.key, fingerprint: c.council.fingerprint, xpub: c.council.xpub, ...(c.council.device ? { device: c.council.device } : {}) }] });
     else save({ ...s, founders: [...s.founders, { name: c.name, key: c.key, verified: remote ? 'remote' : 'in_person' }] });
   };
 
@@ -106,7 +110,7 @@ export function Setup() {
       genesis = buildGenesis(site, {
         name: s.name.trim(),
         description: s.description.trim(),
-        council: s.council.map(c => ({ label: c.name, identityKey: c.key, fingerprint: c.fingerprint, xpub: c.xpub })),
+        council: s.council.map(c => ({ label: c.name, identityKey: c.key, fingerprint: c.fingerprint, xpub: c.xpub, ...(c.device ? { device: c.device } : {}) })),
         founders: s.founders.map(f => ({ name: f.name, identityKey: f.key, verified: f.verified })),
         threshold: s.threshold,
         descriptor: buildDescriptor(s.threshold, s.council, site.network),
@@ -202,6 +206,7 @@ export function Setup() {
             </div>
             {s.council.length > 0 && s.threshold >= s.council.length && <p class="warnbox">{t('setup.noSpare', { n: s.council.length })}</p>}
             <div class="card list">
+              {new Set(s.council.map(c => c.device ?? 'phone')).size > 1 && <p class="warnbox">{t('setup.mixedKeys')}</p>}
               {s.council.map((c, i) => (
                 <CouncilRow
                   c={c}
@@ -323,7 +328,7 @@ export function Setup() {
 }
 
 function CouncilRow(props: {
-  c: { name: string; key: string; fingerprint: string; xpub: string };
+  c: { name: string; key: string; fingerprint: string; xpub: string; device?: 'seedsigner' };
   locked: boolean;
   isMe: boolean;
   onRemove: () => void;
@@ -341,7 +346,7 @@ function CouncilRow(props: {
         {!props.locked && !props.isMe && <button type="button" class="btn link" style="min-height:32px;font-size:13px" onClick={props.onRemove}>{t('setup.remove')}</button>}
       </div>
       <div class="kv small"><span>{t('setup.identity')}</span><span class="mono">{formatShortCode(shortCode(c.key))} ✓</span></div>
-      <div class="kv small"><span>{t('setup.treasury')}</span><span class="mono">{c.fingerprint} ✓</span></div>
+      <div class="kv small"><span>{t('setup.treasury')}</span><span><span class="mono">{c.fingerprint} ✓</span> <span class="chip">{c.device === 'seedsigner' ? t('setup.onDevice') : t('setup.onPhone')}</span></span></div>
       {!props.locked && (editing ? (
         <div class="stack" style="gap:6px">
           <span class="small">{t('setup.replaceTreasuryHint')}</span>

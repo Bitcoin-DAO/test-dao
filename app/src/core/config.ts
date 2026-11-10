@@ -15,6 +15,8 @@ export interface CouncilEntry {
   identityKey: string; // hex x-only
   fingerprint: string; // 8 hex
   xpub: string; // tpub/xpub at m/48'/coin'/0'/2'
+  /** Where the treasury key lives: a SeedSigner (and its SeedQR card), or absent for a trial key on a phone. */
+  device?: 'seedsigner';
 }
 
 export interface Founder {

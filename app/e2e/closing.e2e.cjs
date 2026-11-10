@@ -52,6 +52,7 @@ async function signUp(page, name, council, wrongWords = false) {
   if (council) await page.getByLabel('Chiedo un posto nel Consiglio').check();
   await page.getByLabel(/Ho almeno 18 anni/).check();
   await page.getByRole('button', { name: 'Avanti' }).click();
+  if (council) await page.getByLabel(/Su questo telefono/).check();
   await page.getByRole('button', { name: 'Crea con impronta o volto' }).click();
   if (council) await writeDownWords(page, { tryWrong: wrongWords });
   await page.getByRole('button', { name: 'Copia il codice' }).click();
