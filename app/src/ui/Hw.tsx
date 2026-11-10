@@ -4,8 +4,9 @@ import { useApp } from '../app';
 import { t } from '../i18n';
 import { startScanner, type Scanner } from '../lib/qr';
 import { UrDecoder, type UrEncoder } from '../core/ur';
-import { mergeSignatures, psbtEncoder, readKeyExport, readPsbt, type HwKey } from '../core/hwkeys';
-import { buildDescriptor, parseDescriptor, treasuryAddress, withChecksum } from '../core/descriptor';
+import { deviceDescriptor, mergeSignatures, psbtEncoder, readKeyExport, readPsbt, type HwKey } from '../core/hwkeys';
+import type { Network } from '../core/config';
+import { buildDescriptor, parseDescriptor, treasuryAddress } from '../core/descriptor';
 import { buildRound, inspectRound, memberSignatures } from '../core/round';
 import { sha256Hex } from '../core/util';
 import { Address, Footer, Header, Qr, errText } from './parts';
@@ -238,7 +239,78 @@ function useMemoEncoder(psbt: string, frag: number) {
   return encoders.get(k)!;
 }
 
-/** The same wallet written with receive addresses only (/0/*), for devices that do not read /<0;1>/*. */
-function receiveOnly(desc: string): string {
-  return withChecksum(desc.replace(/#.*$/, '').replace(/\/<0;1>\/\*/g, '/0/*'));
+const receiveOnly = deviceDescriptor;
+
+/**
+ * Signing a round with a SeedSigner (S7, S1): load the treasury wallet on the device, show the round's PSBT
+ * as an animated QR, check the payments on the device, scan the signed PSBT back. Its signatures are put
+ * back into the round's PSBT and checked against this member's key before they are published.
+ */
+export function SeedSignerSign(props: { psbt: string; descriptor: string; network: Network; fingerprint: string; onSigned: (psbtWithSigs: string) => Promise<void>; check: (psbt: string) => boolean }) {
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [scan, setScan] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string>();
+  const dd = deviceDescriptor(props.descriptor);
+  const enc = useMemoEncoder(props.psbt, 100);
+  const onResult = async (v: Scanned) => {
+    setScan(false);
+    setMsg(undefined);
+    setBusy(true);
+    try {
+      if ('text' in v) throw new Error(t('hw.notPsbt'));
+      let merged: string;
+      try {
+        merged = mergeSignatures(props.psbt, readPsbt(v));
+      } catch {
+        throw new Error(t('hw.notThisRound'));
+      }
+      if (!props.check(merged)) throw new Error(t('hw.notYourSig', { fp: props.fingerprint }));
+      await props.onSigned(merged);
+    } catch (e) {
+      setMsg(errText(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div class="stack" style="gap:12px">
+      <p class="small">{t('hw.signIntro', { fp: props.fingerprint })}</p>
+      <ol class="hwsteps">
+        <li class={step === 1 ? 'on' : ''}>
+          <strong>{t('hw.s1')}</strong>
+          {step === 1 && (
+            <>
+              <p class="small">{t('hw.s1Text')}</p>
+              <div style="align-self:center"><Qr text={dd} size={320} ecc="L" label={t('hw.s1')} /></div>
+              <button type="button" class="btn secondary" onClick={() => setStep(2)}>{t('hw.s1Done')}</button>
+            </>
+          )}
+        </li>
+        <li class={step === 2 ? 'on' : ''}>
+          <strong>{t('hw.s2')}</strong>
+          {step === 2 && (
+            <>
+              <p class="small">{t('hw.s2Text')}</p>
+              <AnimatedQr encoder={enc} fps={4} />
+              <button type="button" class="btn secondary" onClick={() => setStep(3)}>{t('hw.s2Done')}</button>
+              <button type="button" class="btn link" onClick={() => setStep(1)}>{t('hw.back')}</button>
+            </>
+          )}
+        </li>
+        <li class={step === 3 ? 'on' : ''}>
+          <strong>{t('hw.s3')}</strong>
+          {step === 3 && (
+            <>
+              <p class="small">{t('hw.s3Text')}</p>
+              <button type="button" class="btn primary" disabled={busy} onClick={() => setScan(true)}>{t('hw.scanSigned')}</button>
+              <button type="button" class="btn link" onClick={() => setStep(2)}>{t('hw.back')}</button>
+            </>
+          )}
+        </li>
+      </ol>
+      {msg && <p class="warnbox">{msg}</p>}
+      {scan && <UrScanModal title={t('hw.scanSigned')} onResult={onResult} onCancel={() => setScan(false)} />}
+    </div>
+  );
 }

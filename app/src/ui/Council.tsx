@@ -1,11 +1,13 @@
 // Council inbox: counts, member list and rules versions, key replacements, checking candidates.
 import { useState } from 'preact/hooks';
 import { chainSeen, signAndPublish, useApp } from '../app';
-import { t } from '../i18n';
+import { fmtSats, t } from '../i18n';
+import { parseDescriptor } from '../core/descriptor';
+import { missingFunds } from './Round';
 import { KIND, type Event } from '../core/events';
 import { parseFounderCode, type FounderCode } from '../core/identity';
 import { formatShortCode, shortCode } from '../core/shortcode';
-import { nextRoster, nextSettings, type Candidate, type DaoState, type RekeyView, type Verified } from '../core/state';
+import { nextRoster, nextSettings, type Candidate, type DaoState, type Output, type RekeyView, type Verified } from '../core/state';
 import { hashJson, parseJson } from '../core/util';
 import { CouncilOnly, Footer, Header, ScanModal, ShortCode, errText } from './parts';
 import { useNameOf } from './Proposals';
@@ -92,6 +94,12 @@ export function Council() {
   const awaiting = s.proposals.filter(p => p.status === 'awaiting_tally').length;
   const openR = s.rounds.find(r => r.status === 'open');
   const waitingPay = [...s.payments.values()].filter(p => p.status === 'waiting').length;
+  // With the latest treasury reading: payouts waiting but not enough coins (a close sweeps whatever there is).
+  const waitingProps = s.proposals.filter(p => s.payments.get(p.event.id)?.status === 'waiting');
+  const cur = s.settings[s.settings.length - 1].content;
+  const shortOfFunds = app.treasury && waitingPay > 0 && !waitingProps.some(p => p.content.type === 'close')
+    ? missingFunds(app.treasury.utxos.reduce((a, u) => a + u.value, 0), waitingProps.flatMap(p => (p.content.payload.outputs as Output[]) ?? []), parseDescriptor(cur.descriptor, s.founded!.config.network), app.treasury.utxos.length, 1, s.founded!.config.network)
+    : 0;
   const lastRoster = s.rosters[s.rosters.length - 1].content.version;
   const lastSettings = s.settings[s.settings.length - 1].content.version;
 
@@ -152,8 +160,14 @@ export function Council() {
               </>
             ) : (
               <>
-                <p class="small">{t('cn.roundPrepare', { n: waitingPay })}</p>
-                <a class="btn primary" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="#/round/new">{t('rd.prepare')}</a>
+                {shortOfFunds > 0 ? (
+                  <p class="small">{t('cn.waitingFunds', { n: waitingPay, missing: fmtSats(shortOfFunds) })}</p>
+                ) : (
+                  <>
+                    <p class="small">{t('cn.roundPrepare', { n: waitingPay })}</p>
+                    <a class="btn primary" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="#/round/new">{t('rd.prepare')}</a>
+                  </>
+                )}
               </>
             )}
           </section>

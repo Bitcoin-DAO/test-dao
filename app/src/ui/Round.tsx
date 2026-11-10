@@ -5,9 +5,11 @@ import { broadcastRound, chainApis, receiptDepth, refreshTreasury, signAndPublis
 import { fmtSats, t } from '../i18n';
 import { KIND } from '../core/events';
 import { explorerOf, feePolicyOf, pushPageOf, sourceLabel, suggestFee, txSeenBy, txStatus, type Broadcast, type TxStatus } from '../core/chain';
-import { parseDescriptor } from '../core/descriptor';
+import { parseDescriptor, treasuryAddress } from '../core/descriptor';
+import type { Network } from '../core/config';
 import { mergeSignatures } from '../core/hwkeys';
-import { buildRound, finalizeRound, masterFromSeed, memberSignatures, signWithMnemonicKey, type BuiltRound } from '../core/round';
+import { SeedSignerSign } from './Hw';
+import { buildRound, estimateVsize, finalizeRound, masterFromSeed, memberSignatures, signWithMnemonicKey, type BuiltRound } from '../core/round';
 import { cadenceOf, roundLabel } from '../core/time';
 import { proposalLabel, type Output, type RoundView } from '../core/state';
 import { CouncilOnly, Address, Footer, Header, errText, go, askText } from './parts';
@@ -55,6 +57,8 @@ export function PrepareRound() {
   const rateOk = Number.isFinite(r) && r >= 1 && r <= max;
   const aboveCap = suggested !== undefined && suggested > max;
   const live = !!app.treasury && !app.treasuryLoading && (app.treasuryAt ?? 0) >= opened;
+  // Known at once from the live reading: is there enough for the payouts and a fee? (TEST DAO, 9 Nov 2026)
+  const shortBy = live && !close && rateOk ? missingFunds(app.treasury!.utxos.reduce((a, u) => a + u.value, 0), outputs, parseDescriptor(settings.descriptor, cfg.network), app.treasury!.utxos.length, r, cfg.network) : 0;
 
   const build = () => {
     setMsg(undefined);
@@ -112,7 +116,8 @@ export function PrepareRound() {
               {suggested !== undefined && <span class="small" style="font-weight:400">{t(policy === 'fast' ? 'rd.feeFast' : 'rd.feeEconomical', { rate: suggested })}</span>}
             </label>
             {aboveCap && <p class="warnbox">{t('rd.feeAboveCap', { max, rate: suggested! })}</p>}
-            <button type="button" class="btn secondary" disabled={!rateOk || !live} onClick={build}>{t('rd.build')}</button>
+            {shortBy > 0 && <p class="warnbox">{t('rd.shortBy', { missing: fmtSats(shortBy), balance: fmtSats(app.treasury!.utxos.reduce((a, u) => a + u.value, 0)) })}</p>}
+            <button type="button" class="btn secondary" disabled={!rateOk || !live || shortBy > 0} onClick={build}>{t('rd.build')}</button>
             {!live && (app.treasuryLoading || !app.treasuryError) && <p class="small">{t('rd.readingCoins')}</p>}
             {!live && !app.treasuryLoading && app.treasuryError && (
               <p class="small">{t('rd.coinsError', { msg: app.treasuryError })} <button type="button" class="btn link" onClick={() => refreshTreasury()}>{t('retry')}</button></p>
@@ -275,7 +280,16 @@ export function RoundDetail({ id }: { id: string }) {
               <>
                 {tk && !app.identity?.wordsChecked ? <p class="warn">{t('words.needed')} <a href="#/profile">{t('words.toProfile')}</a></p>
                   : tk ? <button type="button" class="btn primary" disabled={busy} onClick={signTest}>{t('rd.signTest')}</button>
-                  : myEntry.device === 'seedsigner' ? <p class="small">{t('rd.hwSoon')}</p>
+                  : myEntry.device === 'seedsigner' ? (
+                    <SeedSignerSign
+                      psbt={r.content.psbt}
+                      descriptor={settings.descriptor}
+                      network={cfg.network}
+                      fingerprint={myEntry.fingerprint}
+                      check={psbt => memberSignatures(psbt, parseDescriptor(settings.descriptor, cfg.network), cfg.network, myEntry, ins!).size === ins!.inputs.length}
+                      onSigned={async psbt => void (await signAndPublish(KIND.sign, { psbt }, [['e', r.event.id]]))}
+                    />
+                  )
                   : <p class="small">{t('rd.noKey')} <a href="#/profile">{t('tk.link')}</a></p>}
                 <button type="button" class="btn link" style="align-self:flex-start" onClick={() => setExt(!ext)}>{t('rd.external')}</button>
                 {ext && (
@@ -389,4 +403,15 @@ function BroadcastReport({ b }: { b: Broadcast }) {
 function broadcastPages(apis: string[], pages: string[] = []): string[] {
   const own = pages.filter(u => /^https:\/\//.test(u));
   return own.length ? own : [...new Set(apis.map(pushPageOf))];
+}
+
+/**
+ * Sats missing for these payouts at this fee rate, spending every coin, with a change output (0: enough).
+ * An estimate: the round's own build is the final word.
+ */
+export function missingFunds(balance: number, outputs: Output[], d: ReturnType<typeof parseDescriptor>, nCoins: number, rate: number, network: Network): number {
+  const pay = outputs.reduce((a, o) => a + o.amount_sat, 0);
+  const change = treasuryAddress(d, network, 1, 0).address;
+  const fee = Math.ceil(estimateVsize(d, Math.max(1, nCoins), [...outputs.map(o => o.address), change], network) * rate);
+  return Math.max(0, pay + fee - balance);
 }

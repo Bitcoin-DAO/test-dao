@@ -1,6 +1,6 @@
 # TEST DAO
 
-**This is TEST DAO's own copy of [btc-dao](https://github.com/Bitcoin-DAO/btc-dao) on testnet4,** for trying the app: first Discussion (v0.3.0), 2 of 2, practice votes. It runs btc-dao v0.3.1 plus v0.4.0 work in progress (commit 0e17698). The site is at **https://bitcoin-dao.github.io/test-dao** and is built from `config/dao.json` by `.github/workflows/pages.yml`. Code changes are made in btc-dao and pulled in here; only `config/dao.json` and this note are TEST DAO's own (the charter is UNO DAO's, as a stand-in).
+**This is TEST DAO's own copy of [btc-dao](https://github.com/Bitcoin-DAO/btc-dao) on testnet4,** for trying the app: first Discussion (v0.3.0), 2 of 2, practice votes. It runs btc-dao v0.3.1 plus v0.4.0 work in progress (commit 98daad9). The site is at **https://bitcoin-dao.github.io/test-dao** and is built from `config/dao.json` by `.github/workflows/pages.yml`. Code changes are made in btc-dao and pulled in here; only `config/dao.json` and this note are TEST DAO's own (the charter is UNO DAO's, as a stand-in).
 
 **Chain sources:** the DAO's chain gateway first (`btc-dao-gateway`), mempool.space directly as a fallback.
 

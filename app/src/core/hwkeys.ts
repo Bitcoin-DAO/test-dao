@@ -6,7 +6,7 @@ import { base64 } from '@scure/base';
 import { Transaction } from '@scure/btc-signer';
 import { txidOf } from './round';
 import { BIP48_PATH, type Network } from './config';
-import { VERSIONS, parseKeyOrigin, type TreasuryKey } from './descriptor';
+import { VERSIONS, parseKeyOrigin, withChecksum, type TreasuryKey } from './descriptor';
 import { cborDecode, cborEncode, UrEncoder, type Cbor } from './ur';
 import { bytesToHex } from './util';
 
@@ -117,3 +117,9 @@ export function mergeSignatures(sentB64: string, returnedB64: string): string {
   }
   return base64.encode(sent.toPSBT(0));
 }
+
+/**
+ * The treasury descriptor as the SeedSigner reads it (docs/seedsigner.md 2): receive branch only, /0/*.
+ * The device still recognises change on /1/* as the wallet's own (checked: "Your change", verified).
+ */
+export const deviceDescriptor = (desc: string) => withChecksum(desc.replace(/#.*$/, '').replace(/\/<0;1>\/\*/g, '/0/*'));

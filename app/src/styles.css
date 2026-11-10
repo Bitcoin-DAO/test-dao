@@ -142,3 +142,8 @@ label.check input { width: 24px; height: 24px; margin: 0; flex: none; accent-col
 .version.pinned { border: 2px solid var(--teal); }
 .post { background: var(--card); border: 1px solid var(--line-2); border-radius: 12px; padding: 10px 14px; }
 .footer .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-left: 4px; vertical-align: super; }
+
+.hwsteps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
+.hwsteps li { color: var(--muted); }
+.hwsteps li.on { color: inherit; }
+.hwsteps li > .btn, .hwsteps li > p, .hwsteps li > div { margin-top: 8px; }

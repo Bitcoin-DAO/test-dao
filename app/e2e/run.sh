@@ -61,6 +61,10 @@ if [ "$WHICH" = all ] || [ "$WHICH" = payouts ]; then
 fi
 if [ "$WHICH" = all ] || [ "$WHICH" = seedsigner ]; then
   start_relay
+  kill_matching "esplora-mock"
+  node "$HERE/esplora-mock.mjs" > "$OUT/esplora.log" 2>&1 &
+  sleep 1
+  start_gateway
   node "$HERE/seedsigner.e2e.cjs"
 fi
 if [ "$WHICH" = all ] || [ "$WHICH" = hw ]; then
