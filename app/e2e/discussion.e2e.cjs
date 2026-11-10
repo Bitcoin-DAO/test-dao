@@ -146,6 +146,14 @@ async function councilAction(page, buttonName) {
   check(await seen(f.getByRole('link', { name: '1 messaggi →' })), 'proposal page links the discussion');
   await f.getByRole('button', { name: 'Sì', exact: true }).click();
   await f.getByText('Il tuo voto: Sì.').waitFor({ timeout: 15000 });
+  await f.getByRole('button', { name: 'Sì', exact: true }).click(); // the same choice again: nothing new is published
+  await f.getByRole('button', { name: 'Astenuto', exact: true }).click();
+  await f.getByText('Il tuo voto: Astenuto.').waitFor({ timeout: 15000 });
+  await f.getByRole('button', { name: 'Sì', exact: true }).click();
+  await f.getByText('Il tuo voto: Sì.').waitFor({ timeout: 15000 });
+  await f.locator('details.card summary').click();
+  check(await f.locator('details.card .list > div').filter({ hasText: /^Voto/ }).count() === 3, 'tapping the same choice again records nothing');
+  check(await seen(f.getByText(/sostituito da un voto successivo, non contato/)), 'the record marks replaced votes as not counted');
   await open(f, `#/d/${did}`);
   check(await seen(f.getByText(/Presentata come proposta \(versione 2\)/)), 'thread says it was submitted');
   check(!(await f.getByRole('button', { name: /Nuova versione/ }).count()), 'no new versions after submission');

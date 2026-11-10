@@ -216,7 +216,7 @@ export function ProposalDetail({ id }: { id: string }) {
                 {myVote && <p class="ok">{t('pd.yourVote', { choice: t(`choice.${myVote}` as 'choice.yes') })}</p>}
                 <div class="row" style="gap:8px">
                   {(['yes', 'no', 'abstain'] as Choice[]).map(ch => (
-                    <button type="button" class={myVote === ch ? 'btn primary' : 'btn secondary'} style="font-size:15px;padding:0 8px" disabled={busy} aria-pressed={myVote === ch} onClick={() => vote(ch)}>
+                    <button type="button" class={myVote === ch ? 'btn primary' : 'btn secondary'} style="font-size:15px;padding:0 8px" disabled={busy} aria-pressed={myVote === ch} onClick={() => myVote !== ch && vote(ch)}>
                       {t(`choice.${ch}` as 'choice.yes')}
                     </button>
                   ))}
@@ -235,7 +235,7 @@ export function ProposalDetail({ id }: { id: string }) {
           <summary style="cursor:pointer"><strong>{t('pd.archive')}</strong> · <span class="small">{record.length}</span></summary>
           <p class="small" style="margin-top:8px">{t('pd.archiveText')}</p>
           <div class="list">
-            {record.map(e => <RecordRow e={e} nameOf={nameOf} />)}
+            {record.map(e => <RecordRow e={e} nameOf={nameOf} replaced={e.kind === KIND.vote && ![...p.votes.values()].some(v => v.event.id === e.id)} />)}
           </div>
         </details>
       </main>
@@ -244,14 +244,14 @@ export function ProposalDetail({ id }: { id: string }) {
   );
 }
 
-function RecordRow({ e, nameOf }: { e: Event; nameOf: (k: string) => string }) {
+function RecordRow({ e, nameOf, replaced }: { e: Event; nameOf: (k: string) => string; replaced?: boolean }) {
   const kind = e.kind === KIND.proposal ? t('arch.proposal') : e.kind === KIND.vote ? t('arch.vote') : e.kind === KIND.confirm ? t('arch.confirm') : t('arch.tally');
   const b = parseJson<any>(e.content);
   const detail = e.kind === KIND.vote ? t(`choice.${b?.choice}` as 'choice.yes') : e.kind === KIND.tally ? t('counts', b?.result ?? {}) : '';
   return (
     <div class="stack" style="gap:2px">
       <div class="row"><strong style="font-size:14px">{kind}{detail ? ` · ${detail}` : ''}</strong><span class="small">{fmtDateTime(e.created_at)}</span></div>
-      <span class="small">{nameOf(e.pubkey)} · <span class="mono">{e.id.slice(0, 12)}…</span></span>
+      <span class="small">{nameOf(e.pubkey)} · <span class="mono">{e.id.slice(0, 12)}…</span>{replaced && <> · {t('arch.replaced')}</>}</span>
     </div>
   );
 }
