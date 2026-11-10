@@ -4,7 +4,7 @@ import { stageError, stageOf, usable, type SiteConfig } from './core/config';
 import { KIND, sign, template, type Event } from './core/events';
 import { rebuild, type DaoState, type Member } from './core/state';
 import { parseDescriptor } from './core/descriptor';
-import { broadcast, loadTreasury, sendToMissing, txStatus, type Broadcast, type TreasuryView, type TxStatus } from './core/chain';
+import { broadcast, loadTreasury, sendToMissing, txDepth, txStatus, type Broadcast, type TreasuryView, type TxStatus } from './core/chain';
 import { finalizeRound } from './core/round';
 import type { RoundView } from './core/state';
 import { prfSalt, pubkeyOf, treasuryKeyFromMnemonic, unwrapSecret, wrapSecret } from './core/identity';
@@ -165,10 +165,12 @@ async function autoRounds() {
     if (st) chainSeen.set(txid, st);
     else chainSeen.delete(txid);
     // The receipt waits for depth: a block can be dropped by a reorg, and a receipt cannot be taken back.
-    if (st?.confirmed && st.block_height && (st.confirmations ?? 0) >= receiptDepth() && !r.receipt && !receipted.has(txid)) {
+    // Depth by every source, the shallowest counting, so one source on a dying fork cannot issue it.
+    const deep = st?.confirmed && !r.receipt && !receipted.has(txid) ? await txDepth(chainApis(), txid) : undefined;
+    if (deep?.confirmed && deep.block_height && !deep.disagree && (deep.confirmations ?? 0) >= receiptDepth()) {
       receipted.add(txid);
       try {
-        await signAndPublish(KIND.receipt, { txid, block_height: st.block_height }, [['e', r.event.id]]);
+        await signAndPublish(KIND.receipt, { txid, block_height: deep.block_height }, [['e', r.event.id]]);
         void refreshTreasury();
       } catch {
         receipted.delete(txid);

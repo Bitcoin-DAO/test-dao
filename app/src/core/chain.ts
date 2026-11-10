@@ -388,23 +388,45 @@ export interface TxStatus {
 
 /** Where the transaction stands, or undefined when no source knows it (or none answers properly). */
 export async function txStatus(apis: string[], txid: string, f: Fetcher = defaultFetch): Promise<TxStatus | undefined> {
-  try {
-    const st = await get<TxStatus>(apis, `/tx/${txid}/status`, f);
-    // Only a real status counts: anything else (an error object, a holding page) means "not known".
-    if (!st || typeof st.confirmed !== 'boolean') return undefined;
-    if (!st.confirmed) return { confirmed: false };
-    let confirmations = st.confirmations;
-    if (confirmations === undefined && st.block_height) {
-      try {
-        confirmations = Math.max(1, (await tipHeight(apis, f)) - st.block_height + 1);
-      } catch {
-        /* unknown depth: treated as not deep enough */
+  // Each source in turn, and its depth from its own chain tip: a block height from one source and a tip from
+  // another can add up to a depth no chain has (SEEDSIGNER DAO, 10 Nov 2026: block 160347 from one source,
+  // tip 160349 from another, "3 confirmations" while the winning chain had the payment in 160349, 1 deep).
+  for (const api of apis) {
+    try {
+      const st = await get<TxStatus>([api], `/tx/${txid}/status`, f);
+      // Only a real status counts: anything else (an error object, a holding page) means "not known".
+      if (!st || typeof st.confirmed !== 'boolean') continue;
+      if (!st.confirmed) return { confirmed: false };
+      let confirmations = st.confirmations;
+      if (confirmations === undefined && st.block_height) {
+        try {
+          confirmations = Math.max(1, (await tipHeight([api], f)) - st.block_height + 1);
+        } catch {
+          /* unknown depth: treated as not deep enough */
+        }
       }
+      return { confirmed: true, block_height: st.block_height, confirmations };
+    } catch {
+      /* next source */
     }
-    return { confirmed: true, block_height: st.block_height, confirmations };
-  } catch {
-    return undefined;
   }
+  return undefined;
+}
+
+/**
+ * How deep a transaction is by every source that knows it, each against its own tip; the shallowest counts.
+ * A receipt cannot be taken back, so it waits until no source sees the payment less deep (or not at all
+ * confirmed). `disagree` when sources place it in different blocks: a fork that has not settled yet.
+ */
+export async function txDepth(apis: string[], txid: string, f: Fetcher = defaultFetch): Promise<(TxStatus & { disagree: boolean; sources: number }) | undefined> {
+  const all = (await Promise.all(apis.map(a => txStatus([a], txid, f)))).filter((x): x is TxStatus => !!x);
+  if (!all.length) return undefined;
+  const confirmed = all.filter(x => x.confirmed);
+  const heights = new Set(confirmed.map(x => x.block_height));
+  const disagree = heights.size > 1 || (confirmed.length > 0 && confirmed.length < all.length);
+  if (confirmed.length < all.length) return { confirmed: false, disagree, sources: all.length };
+  const shallowest = confirmed.reduce((a, b) => ((b.confirmations ?? 0) < (a.confirmations ?? 0) ? b : a));
+  return { ...shallowest, disagree, sources: all.length };
 }
 
 /** Which sources know the transaction, asked all at once (for "On the network: seen by …"). */

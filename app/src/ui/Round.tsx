@@ -4,7 +4,7 @@ import { mnemonicToSeedSync } from '@scure/bip39';
 import { broadcastRound, chainApis, receiptDepth, refreshTreasury, signAndPublish, signingKey, useApp } from '../app';
 import { fmtSats, t } from '../i18n';
 import { KIND } from '../core/events';
-import { explorerOf, feePolicyOf, pushPageOf, sourceLabel, suggestFee, txSeenBy, txStatus, type Broadcast, type TxStatus } from '../core/chain';
+import { explorerOf, feePolicyOf, pushPageOf, sourceLabel, suggestFee, txDepth, txSeenBy, txStatus, type Broadcast, type TxStatus } from '../core/chain';
 import { parseDescriptor, treasuryAddress } from '../core/descriptor';
 import type { Network } from '../core/config';
 import { mergeSignatures } from '../core/hwkeys';
@@ -152,7 +152,7 @@ export function RoundDetail({ id }: { id: string }) {
   const [ext, setExt] = useState(false);
   const [pasted, setPasted] = useState('');
   const [copied, setCopied] = useState(false);
-  const [st, setSt] = useState<TxStatus | null>(); // undefined: not asked yet; null: no source knows it
+  const [st, setSt] = useState<(TxStatus & { disagree?: boolean }) | null>(); // undefined: not asked yet; null: no source knows it
   const [seen, setSeen] = useState<string[]>([]);
   const [sent, setSent] = useState<Broadcast>();
   const [risen, setRisen] = useState<number>();
@@ -167,7 +167,7 @@ export function RoundDetail({ id }: { id: string }) {
     if (!r?.inspection) return;
     const txid = r.inspection.txid;
     const check = () =>
-      void txStatus(chainApis(), txid).then(x => {
+      void txDepth(chainApis(), txid).then(x => {
         setSt(x ?? null);
         if (x && !r.receipt) void txSeenBy(chainApis(), txid).then(setSeen);
       });
@@ -354,6 +354,8 @@ export function RoundDetail({ id }: { id: string }) {
             <div class="kv"><span>{t('rd.txid')}</span><a class="mono" href={`${explorerOf(apis[0] ?? '')}/tx/${ins.txid}`} target="_blank" rel="noopener">{ins.txid.slice(0, 16)}…</a></div>
             {height ? (
               <p class="ok">{t('rd.receipt', { h: height })}</p>
+            ) : st?.disagree ? (
+              <p class="warn">{t('rd.sourcesDisagree')}</p>
             ) : st?.confirmed ? (
               // Anyone sees the confirmation from the chain; the receipt follows from a council phone once it is deep enough.
               <p class="small">

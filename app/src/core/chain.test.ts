@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { broadcast, sendToMissing, explorerOf, feePolicyOf, loadTreasury, pushPageOf, sourceLabel, sourceOf, suggestFee, txSeenBy, txStatus, type Fetcher } from './chain';
+import { broadcast, sendToMissing, txDepth, explorerOf, feePolicyOf, loadTreasury, pushPageOf, sourceLabel, sourceOf, suggestFee, txSeenBy, txStatus, type Fetcher } from './chain';
 import { parseDescriptor, treasuryAddress } from './descriptor';
 
 // UNO's practice treasury (2 of 2), as founded on 6 November 2026.
@@ -194,5 +194,31 @@ describe('broadcast', () => {
     await expect(broadcast([`blockbook:${BB}`, 'https://esplora.example/api'], '00', txid)).rejects.toThrow(
       /blockbook\.example: min relay fee not met · esplora\.example: Failed to fetch/,
     );
+  });
+});
+
+describe('depth of a payment, source by source (SEEDSIGNER DAO, 10 Nov 2026)', () => {
+  const A = 'https://a.example/api', B = 'https://b.example/api';
+  const chain = (heights: Record<string, { block?: number; tip: number }>): Fetcher => async url => {
+    const api = url.startsWith(A) ? A : B;
+    const c = heights[api];
+    if (url.endsWith('/blocks/tip/height')) return c.tip;
+    if (c.block === undefined) return { confirmed: false };
+    return { confirmed: true, block_height: c.block };
+  };
+
+  it('takes the depth from the same source\'s tip, never one source\'s block with another\'s tip', async () => {
+    // A is on a fork that put the payment in 160347 and stopped there; B's chain has it in 160349, tip 160349.
+    const f = chain({ [A]: { block: 160347, tip: 160347 }, [B]: { block: 160349, tip: 160349 } });
+    expect(await txStatus([A, B], 'ab'.repeat(32), f)).toEqual({ confirmed: true, block_height: 160347, confirmations: 1 });
+  });
+
+  it('counts the shallowest depth, and says when sources place it in different blocks', async () => {
+    const fork = chain({ [A]: { block: 160347, tip: 160349 }, [B]: { block: 160349, tip: 160349 } });
+    expect(await txDepth([A, B], 'ab'.repeat(32), fork)).toMatchObject({ confirmed: true, confirmations: 1, disagree: true });
+    const same = chain({ [A]: { block: 160347, tip: 160349 }, [B]: { block: 160347, tip: 160348 } });
+    expect(await txDepth([A, B], 'ab'.repeat(32), same)).toMatchObject({ confirmed: true, block_height: 160347, confirmations: 2, disagree: false });
+    const oneUnconfirmed = chain({ [A]: { block: 160347, tip: 160350 }, [B]: { tip: 160350 } });
+    expect(await txDepth([A, B], 'ab'.repeat(32), oneUnconfirmed)).toMatchObject({ confirmed: false, disagree: true });
   });
 });
