@@ -93,7 +93,7 @@ label.check input { width: 24px; height: 24px; margin: 0; flex: none; accent-col
 
 .addr { font-family: var(--mono); font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
 .addr b { color: var(--accent); font-weight: 600; }
-.qr { background: #fff; display: block; }
+.qr { background: #fff; display: block; max-width: 100%; height: auto; }
 .qr-wrap { display: flex; justify-content: center; }
 
 .code { font-family: var(--mono); font-size: 30px; font-weight: 600; letter-spacing: 0.06em; text-align: center; }

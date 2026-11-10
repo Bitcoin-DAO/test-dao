@@ -21,7 +21,7 @@ export function AnimatedQr({ encoder, fps = 4, size = 320 }: { encoder: () => Ur
     return () => clearInterval(id);
   }, [enc, fps]);
   return (
-    <div class="stack" style="align-items:center;gap:6px">
+    <div class="stack" style={`align-items:center;gap:6px;width:100%;max-width:${size}px;align-self:center`}>
       <Qr text={part} size={size} ecc="L" label={t('hw.animatedQr')} />
       {!enc.single && <span class="small mono">{part.match(/\/(\d+-\d+)\//)?.[1]}</span>}
     </div>
@@ -191,7 +191,7 @@ export function QrTest() {
               <button type="button" class={descForm === 'multipath' ? 'btn secondary' : 'btn link'} onClick={() => setDescForm('multipath')}>/&lt;0;1&gt;/*</button>
               <button type="button" class={descForm === 'receive' ? 'btn secondary' : 'btn link'} onClick={() => setDescForm('receive')}>/0/*</button>
             </div>
-            <div style="align-self:center"><Qr text={shownDescriptor!} size={340} ecc="L" label={t('hw.step2')} /></div>
+            <div style="align-self:center;width:100%;max-width:340px"><Qr text={shownDescriptor!} size={340} ecc="L" label={t('hw.step2')} /></div>
             <p class="small mono" style="overflow-wrap:anywhere">{shownDescriptor}</p>
           </section>
         )}
@@ -282,7 +282,7 @@ export function SeedSignerSign(props: { psbt: string; descriptor: string; networ
           {step === 1 && (
             <>
               <p class="small">{t('hw.s1Text')}</p>
-              <div style="align-self:center"><Qr text={dd} size={320} ecc="L" label={t('hw.s1')} /></div>
+              <div style="align-self:center;width:100%;max-width:320px"><Qr text={dd} size={320} ecc="L" label={t('hw.s1')} /></div>
               <button type="button" class="btn secondary" onClick={() => setStep(2)}>{t('hw.s1Done')}</button>
             </>
           )}

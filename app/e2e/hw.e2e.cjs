@@ -43,6 +43,11 @@ const device = fs.readFileSync(__dirname + '/../src/core/fixtures/seedsigner-0.8
   for (let i = 0; i < 12; i++) { frames.add(await p.locator('section', { hasText: 'Transaction to sign' }).locator('span.mono').first().innerText()); await p.waitForTimeout(260); }
   check(frames.size >= 6, `PSBT QR animates (${[...frames].slice(0, 4).join(', ')}…)`);
   await p.screenshot({ path: `${SHOTS}/qrtest.png`, fullPage: true });
+  await p.setViewportSize({ width: 340, height: 740 }); // a small phone
+  await p.waitForTimeout(300);
+  const over = await p.evaluate(() => [...document.querySelectorAll('svg.qr')].filter(q => q.getBoundingClientRect().right > document.documentElement.clientWidth - 8).length);
+  check(over === 0, 'QR codes fit a small phone\'s screen');
+  await p.setViewportSize({ width: 390, height: 844 });
 
   console.log('• The signed PSBT comes back');
   const psbtB64 = await p.evaluate(() => (window).__lastTestPsbt);
